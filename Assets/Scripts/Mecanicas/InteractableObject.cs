@@ -5,7 +5,7 @@ public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Material outlineMaterial;
-    private Material _originalMaterial;
+    [SerializeField] private Material _originalMaterial;
 
     private void Start()
     {
