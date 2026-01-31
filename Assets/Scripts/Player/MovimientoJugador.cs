@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Los 'using' siempre deben ir aquí arriba
+using UnityEngine.InputSystem; // Los 'using' siempre deben ir aquï¿½ arriba
 
 public class MovimientoJugador : MonoBehaviour
 {
     [Header("Referencias")]
     public CharacterController controller;
-    public Transform cam; // ¡No olvides arrastrar la Main Camera aquí en el Inspector!
+    public Transform cam; // ï¿½No olvides arrastrar la Main Camera aquï¿½ en el Inspector!
 
-    [Header("Configuración")]
+    [Header("Configuracion")]
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -22,22 +22,22 @@ public class MovimientoJugador : MonoBehaviour
 
     void Update()
     {
-        // 1. Creamos el vector de dirección basado en WASD
+        // 1. Creamos el vector de direcciï¿½n basado en WASD
         Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
         if (direction.magnitude >= 0.1f)
         {
-            // 2. Ajustamos el ángulo para que sea relativo a la cámara
-            // Esto hace que W sea "arriba" en tu pantalla, sin importar la rotación isométrica
+            // 2. Ajustamos el ï¿½ngulo para que sea relativo a la cï¿½mara
+            // Esto hace que W sea "arriba" en tu pantalla, sin importar la rotaciï¿½n isomï¿½trica
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
 
-            // 3. Rotación suave del personaje
+            // 3. Rotaciï¿½n suave del personaje
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            // 4. Movemos al jugador en esa dirección relativa
+            // 4. Movemos al jugador en esa direcciï¿½n relativa
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            controller.Move(moveDir.normalized * (speed * Time.deltaTime));
         }
 
         // 5. Aplicar gravedad constante
@@ -48,11 +48,11 @@ public class MovimientoJugador : MonoBehaviour
     {
         if (!controller.isGrounded)
         {
-            controller.Move(Vector3.down * 9.81f * Time.deltaTime);
+            controller.Move(Vector3.down * (9.81f * Time.deltaTime));
         }
         else
         {
-            controller.Move(Vector3.down * 0.2f * Time.deltaTime); // Mantiene al player pegado al suelo
+            controller.Move(Vector3.down * (0.2f * Time.deltaTime)); // Mantiene al player pegado al suelo
         }
     }
 }
