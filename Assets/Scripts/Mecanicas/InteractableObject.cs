@@ -5,24 +5,32 @@ public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
     private Color _color;
+    private bool _isInteractable;
 
     private void Start()
     {
         _color = Color.white;
+        _isInteractable = true;
     }
 
     public void ToggleOutline(bool show, Color color)
     {
-        if (show)
+        if (show && _isInteractable)
         {
-            _color = color;
-            meshRenderer.material.color = _color;
+            meshRenderer.material.color = color;
         }
-        else
+        else { 
+            meshRenderer.material.color = Color.white;
+        }
+
+    }
+
+    public void IsResolved()
+    {
+        if (_isInteractable)
         {
-            _color = color;
-            meshRenderer.material.color = _color;
+            _isInteractable = false;
+            meshRenderer.material.color = Color.white;
         }
-            
     }
 }
