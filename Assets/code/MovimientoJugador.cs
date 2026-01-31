@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Los 'using' siempre deben ir aquí arriba
+using UnityEngine.InputSystem;
 
 public class MovimientoJugador : MonoBehaviour
 {
     [Header("Referencias")]
     public CharacterController controller;
-    public Transform cam; // ¡No olvides arrastrar la Main Camera aquí en el Inspector!
+    public Transform planoReferencia;
 
     [Header("Configuración")]
     public float speed = 6f;
@@ -14,7 +14,6 @@ public class MovimientoJugador : MonoBehaviour
 
     private Vector2 moveInput;
 
-    // Recibe el input del componente Player Input
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -22,25 +21,27 @@ public class MovimientoJugador : MonoBehaviour
 
     void Update()
     {
-        // 1. Creamos el vector de dirección basado en WASD
-        Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+        // 1. Capturamos el input y lo INVERTIMOS para corregir el sentido
+        // Multiplicamos por -1 para que W sea adelante y D sea derecha
+        Vector3 inputVector = new Vector3(-moveInput.x, 0f, -moveInput.y);
 
-        if (direction.magnitude >= 0.1f)
+        if (inputVector.magnitude >= 0.1f)
         {
-            // 2. Ajustamos el ángulo para que sea relativo a la cámara
-            // Esto hace que W sea "arriba" en tu pantalla, sin importar la rotación isométrica
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            // 2. MATRIZ DE ROTACIÓN ISOMÉTRICA
+            // Ajustamos el ángulo (45°) sumado a la rotación del plano
+            float isometricAngle = 45f;
+            Quaternion rotation = Quaternion.Euler(0, isometricAngle + planoReferencia.eulerAngles.y, 0);
+            Vector3 moveDir = rotation * inputVector;
 
-            // 3. Rotación suave del personaje
+            // 3. ROTACIÓN DEL PERSONAJE
+            float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            // 4. Movemos al jugador en esa dirección relativa
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            // 4. MOVIMIENTO FINAL
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        // 5. Aplicar gravedad constante
         AplicarGravedad();
     }
 
@@ -52,7 +53,7 @@ public class MovimientoJugador : MonoBehaviour
         }
         else
         {
-            controller.Move(Vector3.down * 0.2f * Time.deltaTime); // Mantiene al player pegado al suelo
+            controller.Move(Vector3.down * 0.2f * Time.deltaTime);
         }
     }
 }
