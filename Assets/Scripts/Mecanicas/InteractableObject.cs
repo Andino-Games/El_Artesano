@@ -22,4 +22,5 @@ public abstract class InteractableObject : MonoBehaviour
     }
 
     public abstract void Activate();
+    public abstract void Stop();
 }

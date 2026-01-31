@@ -4,46 +4,46 @@ using UnityEngine;
 public class Tornillo : InteractableObject
 {
     [SerializeField] private float maxHeight;
-    [SerializeField] private float maxActivations;
+    [SerializeField] private float rotationSpeed;
     [SerializeField] private float duration;
 
-    private float heightStep;
+    private float Percentage => timer / duration;
+    private float timer;
+    Vector3 initialPosition;
 
-    private int activationsCount;
+    public bool isBeingHold;
 
 
     private void OnEnable()
     {
-        heightStep = 0;
+        timer = 0f;
+        isBeingHold = false;
+        initialPosition = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        if(isBeingHold == true)
+        {
+            if (timer < duration)
+            {
+                Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + maxHeight, initialPosition.z);
+
+                transform.position = Vector3.Lerp(initialPosition, targetPosition, Percentage);
+                transform.Rotate(Vector3.up, rotationSpeed * Time.fixedDeltaTime);
+
+                timer += Time.fixedDeltaTime;
+            }
+        }
     }
 
     public override void Activate()
     {
-        if (activationsCount == 0)
-        {
-            heightStep = (maxHeight - transform.position.y) / maxActivations;
-        }
-
-        StartCoroutine(nameof(ActivationCorotine));
+        isBeingHold = true;
     }
 
-    IEnumerator ActivationCorotine()
+    public override void Stop()
     {
-        Vector3 currentPosition = transform.position;
-
-        float timer = 0f;
-
-        while (timer < duration) 
-        {
-            Vector3 newPosition = new Vector3(currentPosition.x, currentPosition.y + heightStep, currentPosition.z);
-            timer += Time.deltaTime;
-            float percentage = timer / duration;
-
-            transform.position = Vector3.Lerp(transform.position, newPosition, transform.position.z);
-
-            yield return null;
-        }
-
-        activationsCount++;
+        isBeingHold = false;
     }
 }

@@ -18,7 +18,14 @@ public class PlayerManager : MonoBehaviour
             if (collision.Interactable.Mode == interactionMode)
             {
                 collision.Interactable.Activate();
-            }            
+            }
+            if (collision.Interactable.Mode == InteractionMode.Hold)
+            {
+                if (interactionMode == InteractionMode.HoldEnd)
+                {
+                    collision.Interactable.Stop();
+                }
+            }
         }
     }
 }
