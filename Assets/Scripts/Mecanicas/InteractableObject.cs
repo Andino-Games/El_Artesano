@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class InteractableObject : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public abstract class InteractableObject : MonoBehaviour
 
     [SerializeField] private InteractionMode interactionMode;
     private Material _originalMaterial;
+
+    [Header("Eventos")]
+    public UnityEvent OnRemoved; // Avisa a la pieza (ceja/boca) que este tornillo cayó
+
+
+    public bool isComplete;
 
     public InteractionMode Mode => interactionMode;
 
@@ -23,4 +30,5 @@ public abstract class InteractableObject : MonoBehaviour
 
     public abstract void Activate();
     public abstract void Stop();
+    public abstract void Completed();
 }

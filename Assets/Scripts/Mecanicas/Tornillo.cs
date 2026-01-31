@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class Tornillo : InteractableObject
     [SerializeField] private float maxHeight;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float duration;
+    [SerializeField] private float jumpForce;
 
     private float Percentage => timer / duration;
     private float timer;
@@ -17,6 +19,7 @@ public class Tornillo : InteractableObject
     private void OnEnable()
     {
         timer = 0f;
+        isComplete = false;
         isBeingHold = false;
         initialPosition = transform.position;
     }
@@ -34,6 +37,15 @@ public class Tornillo : InteractableObject
 
                 timer += Time.fixedDeltaTime;
             }
+            else
+            {
+                if(isComplete == false)
+                {
+                    isComplete = true;
+
+                    Completed();
+                }
+            }
         }
     }
 
@@ -46,4 +58,21 @@ public class Tornillo : InteractableObject
     {
         isBeingHold = false;
     }
+
+    public override void Completed()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb == null) rb = gameObject.AddComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        float random = UnityEngine.Random.Range(-2f, 2f);
+        Vector3 jumpVector = new Vector3(random, 1f) * jumpForce;
+
+        rb.AddForce(jumpVector, ForceMode.Impulse);
+        rb.AddTorque(jumpVector, ForceMode.Impulse);
+
+        OnRemoved?.Invoke();
+    }
 }
+
