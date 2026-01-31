@@ -7,7 +7,7 @@ public class PlayerCollisionController : MonoBehaviour
         // Check if the object we bumped into is interactable
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(true);
+            interactable.ToggleOutline(true, Color.yellow);
             Debug.Log("Interactable Reached");
         }
     }
@@ -16,7 +16,7 @@ public class PlayerCollisionController : MonoBehaviour
     {
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(false);
+            interactable.ToggleOutline(false, Color.white);
             Debug.Log("Interactable Farther");
         }
     }

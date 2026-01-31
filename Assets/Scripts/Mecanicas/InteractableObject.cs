@@ -4,16 +4,25 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private Material outlineMaterial;
-    [SerializeField] private Material _originalMaterial;
+    private Color _color;
 
     private void Start()
     {
-        _originalMaterial = meshRenderer.material;
+        _color = Color.white;
     }
 
-    public void ToggleOutline(bool show)
+    public void ToggleOutline(bool show, Color color)
     {
-        meshRenderer.enabled = show ? outlineMaterial : _originalMaterial; 
+        if (show)
+        {
+            _color = color;
+            meshRenderer.material.color = _color;
+        }
+        else
+        {
+            _color = color;
+            meshRenderer.material.color = _color;
+        }
+            
     }
 }
