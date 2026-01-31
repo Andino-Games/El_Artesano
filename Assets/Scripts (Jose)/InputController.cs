@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class InputController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class InputController : MonoBehaviour
 
     private bool isHolding;
 
+    public Action<InteractionMode> OnClickInteraction;
 
     private void Awake()
     {
@@ -25,23 +27,37 @@ public class InputController : MonoBehaviour
         multiple.performed += Multiple_performed;
     }
 
-    private void Hold_canceled(InputAction.CallbackContext obj)
+    private void OnDisable()
     {
-        if (isHolding)
-        {
-            isHolding = false;
-            Debug.Log("Holded END");
-        }
+        hold.performed -= Hold_performed;
+        hold.canceled -= Hold_canceled;
+
+        multiple.performed -= Multiple_performed;
     }
 
     private void Hold_performed(InputAction.CallbackContext obj)
     {
         isHolding = true;
+
+        OnClickInteraction?.Invoke(InteractionMode.Hold);
         Debug.Log("Holded");
+    }
+
+    private void Hold_canceled(InputAction.CallbackContext obj)
+    {
+        if (isHolding)
+        {
+            isHolding = false;
+            OnClickInteraction?.Invoke(InteractionMode.HoldEnd);
+            Debug.Log("Holded END");
+        }
     }
 
     private void Multiple_performed(InputAction.CallbackContext obj)
     {
+        OnClickInteraction?.Invoke(InteractionMode.Multiple);
         Debug.Log("Multiple");
     }
 }
+
+public enum InteractionMode { Hold, HoldEnd, Multiple };
