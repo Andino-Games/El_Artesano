@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public abstract class InteractableObject : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Material outlineMaterial;
@@ -21,8 +21,5 @@ public class InteractableObject : MonoBehaviour
         meshRenderer.enabled = show ? outlineMaterial : _originalMaterial; 
     }
 
-    public void Activate()
-    {
-        Debug.Log("Activated");
-    }
+    public abstract void Activate();
 }
