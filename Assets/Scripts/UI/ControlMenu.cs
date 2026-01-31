@@ -4,47 +4,47 @@ using UnityEngine.UI;
 
 public class ControlMenu : MonoBehaviour
 {
-    [Header("Navegación (Build Indices)")]
-    public int playSceneIndex = 1;
-    public int creditsSceneIndex = 2;
+    [Header("Navegación (Lista de Escenas)")]
+    [Tooltip("Añade aquí los índices de tus escenas. El orden lo decides tú.")]
+    public int[] sceneIndices;
 
     [Header("Control de Sonido")]
-    public Image soundButtonImage; // Arrastra el componente Image del botón de sonido
-    public Sprite soundOnSprite;   // Icono de sonido activo
-    public Sprite soundOffSprite;  // Icono de sonido tachado/mute
+    public Image soundButtonImage;
+    public Sprite soundOnSprite;
+    public Sprite soundOffSprite;
 
     private bool isMuted = false;
 
-    // --- NAVEGACIÓN ---
+    // --- NAVEGACIÓN FLEXIBLE ---
 
-    public void PlayGame()
+    /// <summary>
+    /// Carga una escena basada en su posición dentro del array 'sceneIndices'.
+    /// </summary>
+    /// <param name="listIndex">El índice dentro de la lista (0, 1, 2...)</param>
+    public void LoadSceneFromList(int listIndex)
     {
-        SceneManager.LoadScene(playSceneIndex);
+        if (listIndex >= 0 && listIndex < sceneIndices.Length)
+        {
+            SceneManager.LoadScene(sceneIndices[listIndex]);
+        }
+        else
+        {
+            Debug.LogWarning("El índice " + listIndex + " no existe en la lista de escenas.");
+        }
     }
 
-    public void OpenCredits()
-    {
-        SceneManager.LoadScene(creditsSceneIndex);
-    }
-
-    // --- LÓGICA DE SONIDO (Lista para conectar) ---
+    // --- LÓGICA DE SONIDO ---
 
     public void ToggleSound()
     {
-        // 1. Cambiamos el estado
         isMuted = !isMuted;
 
-        // 2. Feedback Visual
         if (soundButtonImage != null)
         {
             soundButtonImage.sprite = isMuted ? soundOffSprite : soundOnSprite;
         }
 
-        // 3. Conexión al Motor de Audio
-        // Usamos AudioListener.pause para que funcione desde ya,
-        // pero aquí es donde conectarías tu futuro AudioManager.
         AudioListener.pause = isMuted;
-
-        Debug.Log("Estado del Mute: " + isMuted);
+        Debug.Log("Mute: " + isMuted);
     }
 }
