@@ -672,7 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoJugador
   controller: {fileID: 406078545}
-  cam: {fileID: 170092151}
+  planoReferencia: {fileID: 2141382657}
   speed: 6
   turnSmoothTime: 0.1
 --- !u!114 &406078547
