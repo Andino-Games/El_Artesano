@@ -7,6 +7,25 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        
+        input.OnClickInteraction += ValidateInteraction;
+    }
+
+    //  Make sure that you will interact with an object only with its interaction mode
+    private void ValidateInteraction(InteractionMode interactionMode)
+    {
+        if(collision.Interactable != null)
+        {
+            if (collision.Interactable.Mode == interactionMode)
+            {
+                collision.Interactable.Activate();
+            }
+            if (collision.Interactable.Mode == InteractionMode.Hold)
+            {
+                if (interactionMode == InteractionMode.HoldEnd)
+                {
+                    collision.Interactable.Stop();
+                }
+            }
+        }
     }
 }

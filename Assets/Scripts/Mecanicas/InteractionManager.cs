@@ -4,50 +4,73 @@ using UnityEngine.InputSystem;
 public class InteractionManager : MonoBehaviour
 {
     [Header("Input Setup")]
-    public PlayerInput playerInput; // Arrastra el PlayerInput aquí
-    private InputAction _multipleAction; // La acción de 3 clicks
+    public PlayerInput playerInput;
+    public Camera puzzleCamera;
+    public LayerMask puzzleLayer;
 
-    [Header("Referencias")]
-    public Camera puzzleCamera; 
-    public LayerMask puzzleLayer; // Asegúrate que los tornillos tengan este Layer
+    private InputAction _holdAction;
+    private InputAction _multipleAction;
+    
+    private ScrewMechanic _currentTarget; // Lo que estamos mirando/tocando
+    private bool _isHolding;
 
     void Start()
     {
-        // CORRECCIÓN: Usamos FindAction que busca la acción recursivamente en el asset asignado
-        // El segundo parámetro 'true' hace que Unity te avise en consola si no la encuentra (evita NullReference silencioso)
+        // Configurar referencias a las acciones exactas de tu archivo
+        _holdAction = playerInput.actions.FindAction("Hold", true);
         _multipleAction = playerInput.actions.FindAction("Multiple", true);
-    
-        // Nos suscribimos al evento
-        _multipleAction.performed += OnTripleClick;
+
+        // Suscripción a eventos
+        _holdAction.started += ctx => _isHolding = true;
+        _holdAction.canceled += ctx => _isHolding = false;
+        
+        _multipleAction.performed += ctx => TryMultipleClick();
     }
 
-    private void OnTripleClick(InputAction.CallbackContext context)
+    void Update()
     {
-        CheckInteraction();
+        // Lógica constante para el HOLD
+        if (_isHolding)
+        {
+            RaycastAndInteract(true); 
+        }
     }
 
-    void CheckInteraction()
+    // Se llama solo cuando se completan los 3 clicks
+    void TryMultipleClick()
     {
-        // Lanzamos el Rayo exactamente donde está el mouse en ese instante
+        RaycastAndInteract(false);
+    }
+
+    void RaycastAndInteract(bool isHoldAction)
+    {
         Ray ray = puzzleCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100f, puzzleLayer))
         {
-            // Buscamos si el objeto tiene el script del tornillo
-            ScrewPuzzle screw = hit.collider.GetComponent<ScrewPuzzle>();
+            ScrewMechanic screw = hit.collider.GetComponent<ScrewMechanic>();
             
             if (screw != null)
             {
-                // ¡BAM! Ejecutamos la acción de sacar el tornillo
-                screw.TriggerUnscrew();
+                if (isHoldAction)
+                {
+                    // Si estamos manteniendo click, le decimos al tornillo "Te están apretando"
+                    screw.OnHoldInput(true);
+                }
+                else
+                {
+                    // Si fue un triple click, le decimos "Te golpearon 3 veces"
+                    screw.OnMultipleClickInput();
+                }
+            }
+            
+            // Lógica extra para la Salida (Lágrima)
+            LevelExit exit = hit.collider.GetComponent<LevelExit>();
+            if (exit != null && !isHoldAction) // Asumiendo que entrar al nivel es con click
+            {
+                exit.EnterNextLevel();
             }
         }
-    }
-    
-    // Importante: Desuscribirse al destruir el objeto para evitar errores
-    private void OnDestroy()
-    {
-        if (_multipleAction != null) _multipleAction.performed -= OnTripleClick;
     }
 }
