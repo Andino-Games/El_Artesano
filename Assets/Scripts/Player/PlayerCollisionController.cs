@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class PlayerCollisionController : MonoBehaviour
 {
-    public InteractableObject Interactable;
-
     private void OnTriggerEnter(Collider puzzle)
     {
         // Check if the object we bumped into is interactable
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(true);
-            Interactable = interactable;
+            interactable.ToggleOutline(true, Color.yellow);
             Debug.Log("Interactable Reached");
         }
     }
@@ -19,8 +16,7 @@ public class PlayerCollisionController : MonoBehaviour
     {
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(false);
-            Interactable = null;
+            interactable.ToggleOutline(false, Color.white);
             Debug.Log("Interactable Farther");
         }
     }
