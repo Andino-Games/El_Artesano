@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputSystem_Actions",
     "maps": [
         {
@@ -72,7 +73,7 @@
                     "name": "Next",
                     "type": "Button",
                     "id": "b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -85,6 +86,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Hold",
+                    "type": "Value",
+                    "id": "4133cc83-a2de-489a-a67a-7592e5ed65fc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Multiple",
+                    "type": "Value",
+                    "id": "12c57823-2ed6-4b86-bb71-4091e76ed66b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -376,6 +395,28 @@
                 },
                 {
                     "name": "",
+                    "id": "fdd01ed8-8542-4611-aa4a-da5642345545",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold(duration=0.15)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "78fad9d3-c470-4dbe-ad3b-5fadb48591eb",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "MultiTap(tapCount=3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Multiple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "eb40bb66-4559-4dfa-9a2f-820438abb426",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -474,6 +515,12 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Clicks",
+            "id": "956835e1-7df0-483d-9b2d-23cd0c61d1b2",
+            "actions": [],
+            "bindings": []
         },
         {
             "name": "UI",

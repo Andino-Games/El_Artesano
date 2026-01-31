@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "name": "GameplayClicks",
+    "maps": [
+        {
+            "name": "Clicks",
+            "id": "b330045f-f236-4b84-9c21-40480a311108",
+            "actions": [
+                {
+                    "name": "Hold",
+                    "type": "Value",
+                    "id": "8e572d71-b63f-4b57-ad38-be5127aea4ad",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Multiple",
+                    "type": "Value",
+                    "id": "1be03667-d973-4b93-9da7-087ebc3c6b81",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6dd17bee-9d01-4d94-999c-d13f6260b70d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1a66ede-7cf6-4a72-8807-a527a6c8c9cd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "MultiTap(tapCount=3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Multiple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
