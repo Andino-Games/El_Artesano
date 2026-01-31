@@ -4,10 +4,11 @@ using UnityEngine;
 [Serializable]
 public struct ActInteractions
 {
-    [SerializeField] private GameObject maskPiece;
+    [SerializeField] private MaskFragment fragment;
     [SerializeField] private InteractableObject[] interactables;
 
-    public GameObject MaskPiece => maskPiece;
+    public MaskFragment MaskPiece => fragment;
+    public InteractableObject[] Interactables => interactables;
 
     public bool ValidateAct()
     {

@@ -40,8 +40,10 @@ public class MaskFragment : MonoBehaviour
         }
     }
 
-    void DetachPiece()
+    public void DetachPiece()
     {
+        Debug.Log("DETACH PIECE " + name);
+
         // 1. Activar física
         _rb.isKinematic = false; 
         _rb.useGravity = true;
