@@ -11,6 +11,9 @@ public class Level1_Manager : MonoBehaviour
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
     
+    [Header("Dialogue")]
+    [SerializeField] private string[] dialogue;
+    
     private int currentAct;
     private bool canChangeZoom;
 
@@ -51,6 +54,8 @@ public class Level1_Manager : MonoBehaviour
             acts[currentAct].MaskPiece.DetachPiece();
             camera.SetFarView();
             canChangeZoom = false;
+            
+            DialogueManager.instance.StartDialogue(dialogue[currentAct]);
 
             Invoke(nameof(ResetCamera), TIME_TO_RESET);
 

@@ -45,6 +45,8 @@ public class MaskFragment : MonoBehaviour
 
     public void DetachPiece()
     {
+        _rb = GetComponent<Rigidbody>();
+        if (_rb == null) _rb = gameObject.AddComponent<Rigidbody>();
         
         Debug.Log($"DETACH PIECE {name}");
 

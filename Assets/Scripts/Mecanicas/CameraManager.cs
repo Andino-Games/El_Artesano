@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    private const float DURATION_FRACTION = 5;
+    private const float DURATION_FRACTION = 8;
     private const float INITIAL_INTENSITY = 0.2f;
 
     [SerializeField] private CameraZoomController zoom;
