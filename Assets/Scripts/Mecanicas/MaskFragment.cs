@@ -53,7 +53,7 @@ public class MaskFragment : MonoBehaviour
 
         // 3. Rotación leve para dramatismo
         Vector3 random = Random.insideUnitSphere;
-        Vector3 randomFixed = new Vector3(random.x, Mathf.Abs(random.y), random.z);
+        Vector3 randomFixed = new Vector3(1, 0, 1);
         _rb.AddTorque(randomFixed * fallForce);
 
         // Opcional: Destruir después de 5 seg para limpiar memoria
