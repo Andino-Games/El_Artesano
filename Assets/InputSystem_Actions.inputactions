@@ -397,7 +397,7 @@
                     "name": "",
                     "id": "fdd01ed8-8542-4611-aa4a-da5642345545",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Hold",
+                    "interactions": "Hold(duration=0.15)",
                     "processors": "",
                     "groups": "",
                     "action": "Hold",

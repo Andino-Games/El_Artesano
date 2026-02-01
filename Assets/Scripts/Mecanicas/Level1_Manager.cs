@@ -2,53 +2,73 @@ using UnityEngine;
 
 public class Level1_Manager : MonoBehaviour
 {
-    [Header("Objetivos")]
-    public ScrewPuzzle[] screws; // ARRASTRA AQUÍ LOS 3 TORNILLOS DEL ESCENARIO
-    public GameObject smilePiece; // La pieza de la máscara que caerá
+    [SerializeField] private PlayerManager player;
+    [SerializeField] private CameraZoomController zoomController;
+
+    [Header("Acts")]
+    [SerializeField] private ActInteractions[] acts;
     
-    [Header("Configuración")]
-    public int screwsNeeded = 3; // Confirmamos que son 3
-    private int _screwsRemovedCount = 0;
+    private int currentAct;
+
+    private void Awake()
+    {
+        player.OnInteractionBegin += InteractionBegin;
+        player.OnInteractionEnd += InteractionEnd;
+    }
 
     void Start()
     {
         // Nos conectamos a cada tornillo
-        foreach (var screw in screws)
+        for (int actIndex = 0; actIndex < acts.Length; actIndex++)
         {
-            screw.OnScrewRemoved.AddListener(CountScrew);
+            for (int i = 0; i < acts[actIndex].Interactables.Length; i++)
+            {
+                acts[actIndex].Interactables[i].OnRemoved.AddListener(CountScrew);
+            }
         }
     }
 
     void CountScrew()
     {
-        _screwsRemovedCount++;
-        
-        Debug.Log($"Progreso: {_screwsRemovedCount}/{screwsNeeded}");
-
-        if (_screwsRemovedCount >= screwsNeeded)
+        if(currentAct >= acts.Length)
         {
-            ReleaseMaskPiece();
+            return;
+        }
+
+        bool isActComplete = acts[currentAct].ValidateAct();
+
+        if(isActComplete == true)
+        {
+            Debug.Log("Try to change Mask");
+            acts[currentAct].MaskPiece.DetachPiece();
+
+            currentAct++;
+
+            if (currentAct < acts.Length)
+            {
+                if (acts[currentAct].GameZone != null)
+                {
+                    acts[currentAct].GameZone.gameObject.SetActive(true);
+                }
+            }
         }
     }
 
-    void ReleaseMaskPiece()
+    private void TurOffAllGameZones()
     {
-        Debug.Log("¡SECCIÓN COMPLETADA! La máscara cambia.");
-
-        // Lógica para que caiga la pieza de la sonrisa/máscara
-        if (smilePiece != null)
+        for (int i = 0; i < acts.Length; i++)
         {
-            Rigidbody rb = smilePiece.GetComponent<Rigidbody>();
-            if (rb == null) rb = smilePiece.AddComponent<Rigidbody>();
-            
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.AddForce(Vector3.down * 2f, ForceMode.Impulse); // Empujoncito hacia abajo
-            
-            // Opcional: Destruir el objeto después de unos segundos para limpiar
-            Destroy(smilePiece, 5f);
+            acts[i].GameZone.gameObject.SetActive(false);
         }
+    }
 
-        // AQUÍ: Activar transición al siguiente paso de la narrativa o nivel
+    private void InteractionBegin()
+    {
+        zoomController.SetCamera(0);
+    }
+
+    private void InteractionEnd()
+    {
+        zoomController.SetCamera(1);
     }
 }

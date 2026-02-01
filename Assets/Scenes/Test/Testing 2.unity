@@ -395,7 +395,7 @@ GameObject:
   - component: {fileID: 257653669}
   - component: {fileID: 257653668}
   - component: {fileID: 257653667}
-  - component: {fileID: 257653666}
+  - component: {fileID: 257653672}
   - component: {fileID: 257653671}
   m_Layer: 6
   m_Name: Cube
@@ -404,20 +404,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &257653666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257653665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7231b25ebde3da84fb5b3e3a4ecf6af4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  meshRenderer: {fileID: 257653668}
-  outlineMaterial: {fileID: 2100000, guid: 28f9df7825f3cb443a0ab9ab6797dbac, type: 2}
 --- !u!65 &257653667
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -533,11 +519,29 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &257653672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257653665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b9931e09607a54ab5c4c6e2408c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tornillo
+  meshRenderer: {fileID: 257653668}
+  outlineMaterial: {fileID: 2100000, guid: 28f9df7825f3cb443a0ab9ab6797dbac, type: 2}
+  interactionMode: 2
+  maxHeight: 10
+  maxActivations: 3
+  duration: 0.3
 --- !u!1 &406078540
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoJugador
   controller: {fileID: 406078545}
-  cam: {fileID: 170092151}
+  planoReferencia: {fileID: 2141382657}
   speed: 6
   turnSmoothTime: 0.1
 --- !u!114 &406078547
@@ -761,6 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad325ff590d353740b1948f1a0a9c430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionController
+  Interactable: {fileID: 0}
 --- !u!4 &1378537742
 Transform:
   m_ObjectHideFlags: 0
