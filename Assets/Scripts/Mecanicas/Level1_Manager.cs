@@ -10,6 +10,9 @@ public class Level1_Manager : MonoBehaviour
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
     
+    [Header("Dialogue")]
+    [SerializeField] private string[] dialogue;
+    
     private int currentAct;
     private bool canChangeZoom;
 
@@ -23,7 +26,7 @@ public class Level1_Manager : MonoBehaviour
 
     void Start()
     {
-        // Nos conectamos a cada tornillo
+       // Nos conectamos a cada tornillo
         for (int actIndex = 0; actIndex < acts.Length; actIndex++)
         {
             for (int i = 0; i < acts[actIndex].Interactables.Length; i++)
@@ -45,6 +48,7 @@ public class Level1_Manager : MonoBehaviour
         if(isActComplete == true)
         {
             Debug.Log("Try to change Mask");
+            DialogueManager.instance.StartDialogue( dialogue[currentAct]);
             acts[currentAct].MaskPiece.DetachPiece();
             zoomController.SetCamera(2);
             canChangeZoom = false;
@@ -74,6 +78,7 @@ public class Level1_Manager : MonoBehaviour
     private void InteractionBegin()
     {
         zoomController.SetCamera(0);
+        
     }
 
     private void InteractionEnd()

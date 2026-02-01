@@ -13,6 +13,8 @@ public class MaskFragment : MonoBehaviour
 
     void Start()
     {
+        
+        
         _rb = GetComponent<Rigidbody>();
         if (_rb == null) _rb = gameObject.AddComponent<Rigidbody>();
 
@@ -38,11 +40,13 @@ public class MaskFragment : MonoBehaviour
         {
             DetachPiece();
         }
+        
     }
 
     public void DetachPiece()
     {
-        Debug.Log("DETACH PIECE " + name);
+        
+        Debug.Log($"DETACH PIECE {name}");
 
         // 1. Activar física
         _rb.isKinematic = false; 
