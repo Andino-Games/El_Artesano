@@ -43,7 +43,7 @@ public class CameraZoomController : MonoBehaviour
         }
     }
 
-    private void SetCamera(int cameraIndex)
+    public void SetCamera(int cameraIndex)
     {
         if (cameraIndex >= cameras.Length)
         {
