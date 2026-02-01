@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Level1_Manager : MonoBehaviour
 {
+    private const float TIME_TO_RESET = 5f;
+
     [SerializeField] private PlayerManager player;
     [SerializeField] private CameraZoomController zoomController;
 
@@ -9,9 +11,12 @@ public class Level1_Manager : MonoBehaviour
     [SerializeField] private ActInteractions[] acts;
     
     private int currentAct;
+    private bool canChangeZoom;
 
     private void Awake()
     {
+        canChangeZoom = true;
+
         player.OnInteractionBegin += InteractionBegin;
         player.OnInteractionEnd += InteractionEnd;
     }
@@ -41,6 +46,10 @@ public class Level1_Manager : MonoBehaviour
         {
             Debug.Log("Try to change Mask");
             acts[currentAct].MaskPiece.DetachPiece();
+            zoomController.SetCamera(2);
+            canChangeZoom = false;
+
+            Invoke(nameof(ResetCamera), TIME_TO_RESET);
 
             currentAct++;
 
@@ -69,6 +78,15 @@ public class Level1_Manager : MonoBehaviour
 
     private void InteractionEnd()
     {
-        zoomController.SetCamera(1);
+        if(canChangeZoom == true)
+        {
+            zoomController.SetCamera(1);
+        }
+    }
+
+    private void ResetCamera()
+    {
+        canChangeZoom = true;
+        InteractionEnd();
     }
 }
