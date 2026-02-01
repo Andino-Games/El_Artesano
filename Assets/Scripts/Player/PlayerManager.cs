@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
             if (collision.Interactable.Mode == interactionMode)
             {
                 collision.Interactable.Activate();
+                collision.Interactable.OnRemoved.AddListener(StopInteraction);
 
                 OnInteractionBegin?.Invoke();
             }
@@ -29,11 +30,16 @@ public class PlayerManager : MonoBehaviour
             {
                 if (interactionMode == InteractionMode.HoldEnd)
                 {
-                    collision.Interactable.Stop();
-
-                    OnInteractionEnd?.Invoke();
+                    StopInteraction();
                 }
             }
         }
+    }
+
+    private void StopInteraction()
+    {
+        collision.Interactable.Stop();
+
+        OnInteractionEnd?.Invoke();
     }
 }
