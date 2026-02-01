@@ -62,7 +62,7 @@ Material:
     - _Cull: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
-    - _IntersectionDepth: 50.3
+    - _IntersectionDepth: 50
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
