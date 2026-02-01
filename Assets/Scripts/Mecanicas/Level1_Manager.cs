@@ -2,9 +2,19 @@ using UnityEngine;
 
 public class Level1_Manager : MonoBehaviour
 {
+    [SerializeField] private PlayerManager player;
+    [SerializeField] private CameraZoomController zoomController;
+
+    [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
     
     private int currentAct;
+
+    private void Awake()
+    {
+        player.OnInteractionBegin += InteractionBegin;
+        player.OnInteractionEnd += InteractionEnd;
+    }
 
     void Start()
     {
@@ -31,7 +41,34 @@ public class Level1_Manager : MonoBehaviour
         {
             Debug.Log("Try to change Mask");
             acts[currentAct].MaskPiece.DetachPiece();
+
             currentAct++;
+
+            if (currentAct < acts.Length)
+            {
+                if (acts[currentAct].GameZone != null)
+                {
+                    acts[currentAct].GameZone.gameObject.SetActive(true);
+                }
+            }
         }
+    }
+
+    private void TurOffAllGameZones()
+    {
+        for (int i = 0; i < acts.Length; i++)
+        {
+            acts[i].GameZone.gameObject.SetActive(false);
+        }
+    }
+
+    private void InteractionBegin()
+    {
+        zoomController.SetCamera(0);
+    }
+
+    private void InteractionEnd()
+    {
+        zoomController.SetCamera(1);
     }
 }

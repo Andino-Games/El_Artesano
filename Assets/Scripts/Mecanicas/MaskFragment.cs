@@ -50,9 +50,11 @@ public class MaskFragment : MonoBehaviour
 
         // 2. Empujoncito hacia el frente para que se desprenda bonito (como en el video)
         _rb.AddForce(transform.forward * fallForce, ForceMode.Impulse);
-        
+
         // 3. Rotación leve para dramatismo
-        _rb.AddTorque(Random.insideUnitSphere * fallForce);
+        Vector3 random = Random.insideUnitSphere;
+        Vector3 randomFixed = new Vector3(random.x, Mathf.Abs(random.y), random.z);
+        _rb.AddTorque(randomFixed * fallForce);
 
         // Opcional: Destruir después de 5 seg para limpiar memoria
         Destroy(gameObject, 5f); 

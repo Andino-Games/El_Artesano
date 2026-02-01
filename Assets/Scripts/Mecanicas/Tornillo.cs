@@ -70,7 +70,9 @@ public class Tornillo : InteractableObject
         Vector3 jumpVector = new Vector3(random, 1f) * jumpForce;
 
         rb.AddForce(jumpVector, ForceMode.Impulse);
-        rb.AddTorque(jumpVector, ForceMode.Impulse);
+        rb.AddTorque(UnityEngine.Random.insideUnitSphere * jumpForce * 3f);
+
+        Destroy(gameObject, 3f);
 
         OnRemoved?.Invoke();
     }
