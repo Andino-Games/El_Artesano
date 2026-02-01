@@ -16,13 +16,20 @@ public struct ActInteractions
     {
         bool result = true;
 
-        for(int i = 0; i < interactables.Length; i++)
+        if (interactables.Length > 0)
         {
-            if (interactables[i].isComplete == false)
+            for(int i = 0; i < interactables.Length; i++)
             {
-                result = false;
-                break;
+                if (interactables[i].isComplete == false)
+                {
+                    result = false;
+                    break;
+                }
             }
+        }
+        else 
+        {
+            result = false;
         }
 
         return result;

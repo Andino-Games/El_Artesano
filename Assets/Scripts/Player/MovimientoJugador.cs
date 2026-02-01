@@ -6,6 +6,7 @@ public class MovimientoJugador : MonoBehaviour
     [Header("Referencias")]
     public CharacterController controller;
     public Transform cam; // �No olvides arrastrar la Main Camera aqu� en el Inspector!
+    [SerializeField] private Animator animator;
 
     [Header("Configuracion")]
     public float speed = 6f;
@@ -38,6 +39,12 @@ public class MovimientoJugador : MonoBehaviour
             // 4. Movemos al jugador en esa direcci�n relativa
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * (speed * Time.deltaTime));
+
+            animator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
         }
 
         // 5. Aplicar gravedad constante

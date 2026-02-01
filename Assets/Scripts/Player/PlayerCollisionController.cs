@@ -22,7 +22,7 @@ public class PlayerCollisionController : MonoBehaviour
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
             interactable.ToggleOutline(false, Color.white);
-            this.interactable = interactable;
+            this.interactable = null;
             Debug.Log("Interactable Farther");
         }
     }
