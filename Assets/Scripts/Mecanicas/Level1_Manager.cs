@@ -6,6 +6,7 @@ public class Level1_Manager : MonoBehaviour
 
     [SerializeField] private PlayerManager player;
     [SerializeField] private CameraZoomController zoomController;
+    [SerializeField] new private CameraManager camera;
 
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
@@ -31,6 +32,8 @@ public class Level1_Manager : MonoBehaviour
                 acts[actIndex].Interactables[i].OnRemoved.AddListener(CountScrew);
             }
         }
+
+        camera.StartVignette();
     }
 
     void CountScrew()
@@ -46,7 +49,7 @@ public class Level1_Manager : MonoBehaviour
         {
             Debug.Log("Try to change Mask");
             acts[currentAct].MaskPiece.DetachPiece();
-            zoomController.SetCamera(2);
+            camera.SetFarView();
             canChangeZoom = false;
 
             Invoke(nameof(ResetCamera), TIME_TO_RESET);
@@ -73,14 +76,14 @@ public class Level1_Manager : MonoBehaviour
 
     private void InteractionBegin()
     {
-        zoomController.SetCamera(0);
+        camera.SetNearView();
     }
 
     private void InteractionEnd()
     {
         if(canChangeZoom == true)
         {
-            zoomController.SetCamera(1);
+            camera.SetMainView();
         }
     }
 
