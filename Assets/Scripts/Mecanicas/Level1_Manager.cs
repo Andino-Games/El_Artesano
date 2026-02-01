@@ -31,7 +31,24 @@ public class Level1_Manager : MonoBehaviour
         {
             Debug.Log("Try to change Mask");
             acts[currentAct].MaskPiece.DetachPiece();
+
             currentAct++;
+
+            if (currentAct < acts.Length)
+            {
+                if (acts[currentAct].GameZone != null)
+                {
+                    acts[currentAct].GameZone.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    private void TurOffAllGameZones()
+    {
+        for (int i = 0; i < acts.Length; i++)
+        {
+            acts[i].GameZone.gameObject.SetActive(false);
         }
     }
 }
