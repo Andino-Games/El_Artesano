@@ -6,12 +6,10 @@ public class Level1_Manager : MonoBehaviour
 
     [SerializeField] private PlayerManager player;
     [SerializeField] private CameraZoomController zoomController;
+    [SerializeField] new private CameraManager camera;
 
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
-    
-    [Header("Dialogue")]
-    [SerializeField] private string[] dialogue;
     
     private int currentAct;
     private bool canChangeZoom;
@@ -26,7 +24,7 @@ public class Level1_Manager : MonoBehaviour
 
     void Start()
     {
-       // Nos conectamos a cada tornillo
+        // Nos conectamos a cada tornillo
         for (int actIndex = 0; actIndex < acts.Length; actIndex++)
         {
             for (int i = 0; i < acts[actIndex].Interactables.Length; i++)
@@ -34,6 +32,8 @@ public class Level1_Manager : MonoBehaviour
                 acts[actIndex].Interactables[i].OnRemoved.AddListener(CountScrew);
             }
         }
+
+        camera.StartVignette();
     }
 
     void CountScrew()
@@ -48,9 +48,8 @@ public class Level1_Manager : MonoBehaviour
         if(isActComplete == true)
         {
             Debug.Log("Try to change Mask");
-            DialogueManager.instance.StartDialogue( dialogue[currentAct]);
             acts[currentAct].MaskPiece.DetachPiece();
-            zoomController.SetCamera(2);
+            camera.SetFarView();
             canChangeZoom = false;
 
             Invoke(nameof(ResetCamera), TIME_TO_RESET);
@@ -77,15 +76,14 @@ public class Level1_Manager : MonoBehaviour
 
     private void InteractionBegin()
     {
-        zoomController.SetCamera(0);
-        
+        camera.SetNearView();
     }
 
     private void InteractionEnd()
     {
         if(canChangeZoom == true)
         {
-            zoomController.SetCamera(1);
+            camera.SetMainView();
         }
     }
 
