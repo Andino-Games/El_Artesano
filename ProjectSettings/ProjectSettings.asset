@@ -930,11 +930,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: a33b702d-6409-4631-956b-12e409ab65ce
+  cloudProjectId: c35dfd99-61bc-423d-84c3-308ad3105638
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: El_Artesano (1)
-  organizationId: correodedanny
+  projectName: El_Artesano
+  organizationId: santiagoalzate
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
