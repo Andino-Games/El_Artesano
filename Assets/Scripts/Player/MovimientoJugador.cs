@@ -15,6 +15,8 @@ public class MovimientoJugador : MonoBehaviour
 
     private Vector2 moveInput;
 
+    public Animator Anim => animator;
+
     // Recibe el input del componente Player Input
     public void OnMove(InputValue value)
     {
@@ -55,11 +57,18 @@ public class MovimientoJugador : MonoBehaviour
     {
         if (!controller.isGrounded)
         {
-            controller.Move(Vector3.down * (9.81f * Time.deltaTime));
+            controller.Move(Vector3.down * (20f * Time.deltaTime));
         }
         else
         {
             controller.Move(Vector3.down * (0.2f * Time.deltaTime)); // Mantiene al player pegado al suelo
         }
+    }
+
+    public void TeleportTo(Vector3 position)
+    {
+        controller.enabled = false;
+        transform.position = position;
+        controller.enabled = true;
     }
 }

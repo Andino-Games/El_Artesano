@@ -1,16 +1,20 @@
 using UnityEngine;
 using System;
+using System.Xml.Serialization;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private InputController input;
     [SerializeField] private PlayerCollisionController collision;
+    [SerializeField] private MovimientoJugador movement;
+    [SerializeField] private Transform spawnPoint;
 
     public Action OnInteractionBegin;
     public Action OnInteractionEnd;
 
     private void Start()
     {
+        collision.OnPlayerFell += RestartPosition;
         input.OnClickInteraction += ValidateInteraction;
     }
 
@@ -23,6 +27,8 @@ public class PlayerManager : MonoBehaviour
             {
                 collision.Interactable.Activate();
                 collision.Interactable.OnRemoved.AddListener(StopInteraction);
+
+                movement.Anim.SetBool("IsHolding", true);
 
                 OnInteractionBegin?.Invoke();
             }
@@ -40,6 +46,15 @@ public class PlayerManager : MonoBehaviour
     {
         collision.Interactable.Stop();
 
+        movement.Anim.SetBool("IsHolding", false);
+
         OnInteractionEnd?.Invoke();
+    }
+
+    public void RestartPosition()
+    {
+        Debug.Log("Restart Position");
+
+        movement.TeleportTo(spawnPoint.position);
     }
 }

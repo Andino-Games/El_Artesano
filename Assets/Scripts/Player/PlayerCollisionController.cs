@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerCollisionController : MonoBehaviour
@@ -5,6 +6,8 @@ public class PlayerCollisionController : MonoBehaviour
     public InteractableObject interactable;
 
     public InteractableObject Interactable => interactable;
+
+    public Action OnPlayerFell;
 
     private void OnTriggerEnter(Collider puzzle)
     {
@@ -14,6 +17,12 @@ public class PlayerCollisionController : MonoBehaviour
             interactable.ToggleOutline(true);
             this.interactable = interactable;
             Debug.Log("Interactable Reached");
+        }
+
+        if (puzzle.CompareTag("Void"))
+        {
+            Debug.Log("Fell to void");
+            OnPlayerFell?.Invoke();
         }
     }
 
