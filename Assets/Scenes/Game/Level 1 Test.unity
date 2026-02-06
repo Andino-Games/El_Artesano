@@ -1093,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 4173573655741809058, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: outlineMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d98a8d450352af44a9c1c20d8c8d027a, type: 2}
+      objectReference: {fileID: 2100000, guid: d3d42027722d49248ba0eb4be89186aa, type: 2}
     - target: {fileID: 7482386562234390418, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

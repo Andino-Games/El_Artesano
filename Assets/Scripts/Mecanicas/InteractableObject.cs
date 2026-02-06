@@ -14,12 +14,17 @@ public abstract class InteractableObject : MonoBehaviour
     private Material _originalMaterial;
 
     [Header("Eventos")]
-    public UnityEvent OnRemoved; // Avisa a la pieza (ceja/boca) que este tornillo cayó
+    public UnityEvent OnRemoved; // Avisa a la pieza (ceja/boca) que este tornillo cayï¿½
 
     private bool _isInteractable;
     public bool isComplete;
 
     public InteractionMode Mode => interactionMode;
+
+    private void Awake()
+    {
+        _originalMaterial = meshRenderer.material;
+    }
 
     private void Start()
     {
@@ -28,32 +33,32 @@ public abstract class InteractableObject : MonoBehaviour
         _isInteractable = true;
     }
 
-    /*
+    
     public void ToggleOutline(bool show)
     {
-        meshRenderer.enabled = show ? outlineMaterial : _originalMaterial; 
+        meshRenderer.material = show ? outlineMaterial : _originalMaterial; 
     }
-    */
+    
 
-    public void ToggleOutline(bool show, Color color)
+   /* public void ToggleOutline(bool show, Material material)
     {
         if (show && _isInteractable)
         {
-            meshRenderer.material.color = color;
+            meshRenderer.material = material;
         }
         else
         {
-            meshRenderer.material.color = Color.white;
+            meshRenderer.material = material;
         }
 
-    }
+    }*/
 
     public void IsResolved()
     {
         if (_isInteractable)
         {
             _isInteractable = false;
-            meshRenderer.material.color = Color.white;
+            meshRenderer.material = _originalMaterial;
         }
     }
 

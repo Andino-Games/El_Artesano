@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerCollisionController : MonoBehaviour
@@ -6,14 +7,22 @@ public class PlayerCollisionController : MonoBehaviour
 
     public InteractableObject Interactable => interactable;
 
+    public Action OnPlayerFell;
+
     private void OnTriggerEnter(Collider puzzle)
     {
         // Check if the object we bumped into is interactable
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(true, Color.yellow);
+            interactable.ToggleOutline(true);
             this.interactable = interactable;
             Debug.Log("Interactable Reached");
+        }
+
+        if (puzzle.CompareTag("Void"))
+        {
+            Debug.Log("Fell to void");
+            OnPlayerFell?.Invoke();
         }
     }
 
@@ -21,7 +30,7 @@ public class PlayerCollisionController : MonoBehaviour
     {
         if (puzzle.TryGetComponent<InteractableObject>(out var interactable))
         {
-            interactable.ToggleOutline(false, Color.white);
+            interactable.ToggleOutline(false);
             this.interactable = null;
             Debug.Log("Interactable Farther");
         }
