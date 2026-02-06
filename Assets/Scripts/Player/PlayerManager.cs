@@ -22,7 +22,10 @@ public class PlayerManager : MonoBehaviour
             if (collision.Interactable.Mode == interactionMode)
             {
                 collision.Interactable.Activate();
+
                 collision.Interactable.OnRemoved.AddListener(StopInteraction);
+
+
 
                 OnInteractionBegin?.Invoke();
             }
