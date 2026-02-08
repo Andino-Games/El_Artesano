@@ -32,6 +32,11 @@ public class CameraManager : MonoBehaviour
         zoom.SetCamera(2);
     }
 
+    public void SetGeneralView()
+    {
+        zoom.SetCamera(3);
+    }
+
     IEnumerator VignetteCoroutine()
     {
         int counter = 0;

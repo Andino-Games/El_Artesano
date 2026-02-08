@@ -6,6 +6,7 @@ public class CameraZoomController : MonoBehaviour
     public  bool setToNear;
     public bool setToMain;
     public bool setToFar;
+    public bool setToGeneral;
 
     [SerializeField] private CinemachineCamera[] cameras;
 
@@ -32,13 +33,19 @@ public class CameraZoomController : MonoBehaviour
 
             SetCamera(2);
         }
+
+        if (setToGeneral == true)
+        {
+            setToGeneral = false;
+
+            SetCamera(3);
+        }
     }
 
-    private void ResetCamerasPriority()
+    private void TurnOffCameras()
     {
         for (int i = 0; i < cameras.Length; i++)
         {
-            Debug.Log("Cámaras apagadas");
             cameras[i].gameObject.SetActive(false);
         }
     }
@@ -50,9 +57,9 @@ public class CameraZoomController : MonoBehaviour
             return;
         }
 
-        ResetCamerasPriority();
+        TurnOffCameras();
 
-        Debug.Log("Cámara encendida");
         cameras[cameraIndex].gameObject.SetActive(true);
+        Debug.Log("Cámara encendida: " + cameras[cameraIndex].name);
     }
 }
