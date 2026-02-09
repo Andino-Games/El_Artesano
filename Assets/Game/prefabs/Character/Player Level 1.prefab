@@ -206,6 +206,7 @@ MonoBehaviour:
   input: {fileID: 2967051795888412317}
   collision: {fileID: 4361038719278410337}
   movement: {fileID: 147277401676055588}
+  spawnPoint: {fileID: 0}
 --- !u!114 &5026064170179982688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,8 +267,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 0.7254902, g: 0.89019614, b: 0.8588236, a: 1}
-  m_Intensity: 51.12
+  m_Color: {r: 0.9245283, g: 0.9071832, b: 0.40557134, a: 1}
+  m_Intensity: 84.59
   m_Range: 17
   m_SpotAngle: 84.4097
   m_InnerSpotAngle: 48.302673
