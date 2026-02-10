@@ -52,6 +52,6 @@ public class AnimaticController : MonoBehaviour
 
     public void Skip()
     {
-
+        animator.Play("Animatic_Clip", 0, 0.9f);
     }
 }

@@ -90,4 +90,9 @@ public class PlayerManager : MonoBehaviour
         canMove = newActive;
         light.SetActive(newActive);
     }
+
+    public void SetSpawnPoint(Transform newSpawnPoint)
+    {
+        spawnPoint = newSpawnPoint;
+    }
 }
