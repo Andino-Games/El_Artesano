@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private MapPart[] parts;
 
-    // Update is called once per frame
-    void Update()
+    private int currentAct;
+
+    public void SetActMap(int actIndex)
     {
-        
+        for (int i = 0; i < parts.Length; i++)
+        {
+            MapPart part = parts[i];
+
+            bool isActiveInThisAct = part.ActsActive.Contains(actIndex);
+
+            part._Object.SetActive(isActiveInThisAct);
+        }
     }
 }

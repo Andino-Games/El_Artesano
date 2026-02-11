@@ -52,7 +52,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4361038719278410337
 MonoBehaviour:
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoJugador
   controller: {fileID: 1903758641264094128}
   cam: {fileID: 0}
-  animator: {fileID: 0}
-  speed: 6
+  animator: {fileID: 4303523337597091891}
+  speed: 4
   turnSmoothTime: 0.1
 --- !u!143 &1903758641264094128
 CharacterController:
@@ -142,8 +142,8 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 4.5
+  m_Radius: 0.7
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -206,6 +206,8 @@ MonoBehaviour:
   input: {fileID: 2967051795888412317}
   collision: {fileID: 4361038719278410337}
   movement: {fileID: 147277401676055588}
+  spawnPoint: {fileID: 0}
+  light: {fileID: 5354656441306585931}
 --- !u!114 &5026064170179982688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8894797929284631703
 Transform:
   m_ObjectHideFlags: 0

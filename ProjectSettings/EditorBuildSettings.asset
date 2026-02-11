@@ -17,12 +17,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/TituloMenu.unity
     guid: 04139ed4258cac143b65b57d4e6459a6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game/Level 1 Test.unity
     guid: 7aafae1a915748f4289936fad38f89e6
   - enabled: 1
     path: Assets/Scenes/Game/Credits.unity
     guid: 57019067e4da0594b936e333db281180
+  - enabled: 1
+    path: Assets/Scenes/Level 1 Test Jose.unity
+    guid: a790f61d5fc5460428cc58ced494d6ce
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ab4109e855c334b43aa91ffdb760bc7a, type: 2}

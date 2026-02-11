@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    private const float DURATION_FRACTION = 20;
-    private const float INITIAL_INTENSITY = 0.2f;
+    private const float VIGNETTE_MAX_COUNT = 20;
+    private const float VIGNETTE_INITIAL_INTENSITY = 0.35f;
 
     [SerializeField] private CameraZoomController zoom;
 
@@ -32,16 +32,21 @@ public class CameraManager : MonoBehaviour
         zoom.SetCamera(2);
     }
 
+    public void SetGeneralView()
+    {
+        zoom.SetCamera(3);
+    }
+
     IEnumerator VignetteCoroutine()
     {
         int counter = 0;
-        float delta = (1f - INITIAL_INTENSITY) / DURATION_FRACTION;
+        float delta = (1f - VIGNETTE_INITIAL_INTENSITY) / VIGNETTE_MAX_COUNT;
 
-        while (counter < DURATION_FRACTION)
+        while (counter < VIGNETTE_MAX_COUNT)
         {
-            vignette.UpdatePercentage((delta * counter) + 0.2f);
+            vignette.UpdatePercentage((delta * counter) + VIGNETTE_INITIAL_INTENSITY);
 
-            yield return new WaitForSeconds(duration/DURATION_FRACTION);
+            yield return new WaitForSeconds(duration/VIGNETTE_MAX_COUNT);
 
             counter++;
         }

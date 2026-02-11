@@ -20,11 +20,19 @@ public class DialogueManager : MonoBehaviour
         _gradientOpacity = _dialoguePanel.GetComponent<CanvasGroup>();
     }
 
-    public void StartDialogue(string text)
+    public void StartDialogue(string text, bool doCoroutine = true)
     {
         _gradientOpacity.alpha = Mathf.Lerp(0f, 1f, 1.2f);
         _dialogueText.text = text;
-        StartCoroutine(DialogueCouroutine(text));
+
+        if (doCoroutine == true)
+        {
+            StartCoroutine(DialogueCouroutine(text));
+        }
+        else
+        {
+            _dialogueText.text = text;
+        }
     }
 
     private IEnumerator DialogueCouroutine(string text)
