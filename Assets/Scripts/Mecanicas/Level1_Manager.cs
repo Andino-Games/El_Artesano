@@ -11,6 +11,8 @@ public class Level1_Manager : MonoBehaviour
     [SerializeField] private MapController map;
     [SerializeField] private AnimaticController animatic;
 
+    [SerializeField] private Transform[] spawnPoints;
+
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
     
@@ -56,20 +58,19 @@ public class Level1_Manager : MonoBehaviour
 
             DialogueManager.instance.StartDialogue(dialogue[currentAct]);
 
-            Invoke(nameof(ResetCamera), TIME_TO_RESET);
 
             currentAct++;
 
             if (currentAct < acts.Length)
             {
                 map.SetActMap(currentAct);
+                player.SetSpawnPoint(spawnPoints[currentAct]);
 
-                /*
-                if (acts[currentAct].GameZone != null)
-                {
-                    acts[currentAct].GameZone.gameObject.SetActive(true);
-                }
-                */
+                Invoke(nameof(ResetCamera), TIME_TO_RESET);
+            }
+            else if (currentAct >= acts.Length)
+            {
+                camera.SetGeneralView();
             }
         }
     }
@@ -112,5 +113,14 @@ public class Level1_Manager : MonoBehaviour
 
         player.SetActive(true);
         camera.StartVignette();
+    }
+
+    IEnumerator EndLevelCoroutine()
+    {
+        camera.SetGeneralView();
+
+        yield return new WaitForSeconds(1f);
+
+        animatic.gameObject.SetActive(false);
     }
 }

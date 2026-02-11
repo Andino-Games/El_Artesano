@@ -649,11 +649,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!1 &792487054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6540527095569299132, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
-  m_PrefabInstance: {fileID: 8572866085846553858}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &868022760 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4044311822825874617, guid: 83160bed6f3c97745bc7dcdc1a21582f, type: 3}
@@ -5562,8 +5557,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level1_Manager
   player: {fileID: 2033731627}
-  zoomController: {fileID: 1608393004}
   camera: {fileID: 1608393005}
+  map: {fileID: 0}
+  animatic: {fileID: 0}
   acts:
   - fragment: {fileID: 353492385}
     gameZone: {fileID: 0}
@@ -5572,12 +5568,12 @@ MonoBehaviour:
     - {fileID: 1585341674}
     - {fileID: 1650736768}
   - fragment: {fileID: 233376983}
-    gameZone: {fileID: 792487054}
+    gameZone: {fileID: 0}
     interactables:
     - {fileID: 68818707}
     - {fileID: 2029060601}
   - fragment: {fileID: 1481127752}
-    gameZone: {fileID: 792487054}
+    gameZone: {fileID: 0}
     interactables:
     - {fileID: 1174149247}
     - {fileID: 589704357}
@@ -5654,17 +5650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b9931e09607a54ab5c4c6e2408c9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tornillo
---- !u!114 &1608393004 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 680121867095484835, guid: db943d996b1020c4da608664bbc891a2, type: 3}
-  m_PrefabInstance: {fileID: 8222971888204788814}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 418c3cd7f66a23d429d61f33186a2238, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraZoomController
 --- !u!114 &1608393005 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2910343282126247893, guid: db943d996b1020c4da608664bbc891a2, type: 3}
@@ -6422,6 +6407,10 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 290045186345321760, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 299751417103967786, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.984869
@@ -6449,6 +6438,14 @@ PrefabInstance:
     - target: {fileID: 570219382443939524, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 2164998050600993728, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232329867006953611, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4457751512213818556, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6485,6 +6482,10 @@ PrefabInstance:
     - target: {fileID: 4457751512213818556, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -28.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456759889778281860, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5468385158172908014, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6525,6 +6526,14 @@ PrefabInstance:
     - target: {fileID: 5468385158172908014, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1349
+      objectReference: {fileID: 0}
+    - target: {fileID: 6594533089634899057, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701356966762474299, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482386562234390418, guid: 994cf8ae41cf8844aa3b925b26a3e42b, type: 3}
       propertyPath: m_LocalPosition.x

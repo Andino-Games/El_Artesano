@@ -12,25 +12,37 @@ public class AnimaticController : MonoBehaviour
     public void Animatic1()
     {
         Pause();
-        DialogueManager.instance.StartDialogue(dialogues[0]);
+        DialogueManager.instance.StartDialogue(dialogues[0], false);
     }
 
     public void Animatic2()
     {
         Pause();
-        DialogueManager.instance.StartDialogue(dialogues[1]);
+        DialogueManager.instance.StartDialogue(dialogues[1], false);
     }
 
     public void Animatic3()
     {
         Pause();
-        DialogueManager.instance.StartDialogue(dialogues[2]);
+        DialogueManager.instance.StartDialogue(dialogues[2], false);
     }
 
     public void Animatic4()
     {
         Pause();
-        DialogueManager.instance.StartDialogue(dialogues[3]);
+        DialogueManager.instance.StartDialogue(dialogues[3], false);
+    }
+
+    public void Animatic5()
+    {
+        Pause();
+        DialogueManager.instance.StartDialogue(dialogues[4], false);
+    }
+
+    public void Animatic6()
+    {
+        Pause();
+        DialogueManager.instance.StartDialogue(dialogues[5], false);
     }
 
     public void Pause()
@@ -43,6 +55,8 @@ public class AnimaticController : MonoBehaviour
     {
         animator.speed = 1f;
         button.SetActive(false);
+
+        DialogueManager.instance.EndDialogue();
     }
 
     public void End()
@@ -52,6 +66,13 @@ public class AnimaticController : MonoBehaviour
 
     public void Skip()
     {
-        animator.Play("Animatic_Clip", 0, 0.9f);
+        Resume();
+        //animator.SetTrigger("Intro");
+        animator.Play("Animatic_Intro", 0, 0.9f);
+    }
+
+    public void PlayOutro()
+    {
+        animator.SetTrigger("Outro");
     }
 }
