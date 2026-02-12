@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using System;
 using UnityEngine;
 
@@ -13,6 +14,11 @@ public class AnimaticController : MonoBehaviour
     {
         Pause();
         DialogueManager.instance.StartDialogue(dialogues[0], false);
+
+        /*
+        var image = animator.transform.parent.GetComponent<Image>();
+        image.color = new Color(0, 0, 0, 1);
+        */
     }
 
     public void Animatic2()
@@ -31,6 +37,11 @@ public class AnimaticController : MonoBehaviour
     {
         Pause();
         DialogueManager.instance.StartDialogue(dialogues[3], false);
+
+        /*
+        var image = animator.transform.parent.GetComponent<Image>();
+        image.color = new Color(0, 0, 0, 0);
+        */
     }
 
     public void Animatic5()
@@ -69,6 +80,11 @@ public class AnimaticController : MonoBehaviour
         Resume();
         //animator.SetTrigger("Intro");
         animator.Play("Animatic_Intro", 0, 0.9f);
+    }
+
+    public void PlayIntro()
+    {
+        animator.SetTrigger("Intro");
     }
 
     public void PlayOutro()

@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class Level1_Manager : MonoBehaviour
             acts[currentAct].MaskPiece.DetachPiece();
             camera.SetFarView();
             canChangeZoom = false;
+            player.SetActive(false);
 
             DialogueManager.instance.StartDialogue(dialogue[currentAct]);
 
@@ -70,7 +72,7 @@ public class Level1_Manager : MonoBehaviour
             }
             else if (currentAct >= acts.Length)
             {
-                camera.SetGeneralView();
+                StartCoroutine(nameof(EndLevelCoroutine));
             }
         }
     }
@@ -92,6 +94,7 @@ public class Level1_Manager : MonoBehaviour
     {
         canChangeZoom = true;
         InteractionEnd();
+        player.SetActive(true);
     }
 
     public void StartGame()
@@ -119,8 +122,13 @@ public class Level1_Manager : MonoBehaviour
     {
         camera.SetGeneralView();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(7f);
 
-        animatic.gameObject.SetActive(false);
+        DialogueManager.instance.EndDialogue();
+
+        animatic.gameObject.SetActive(true);
+        animatic.PlayOutro();
+
+        //yield return new WaitForSeconds(1f);
     }
 }
