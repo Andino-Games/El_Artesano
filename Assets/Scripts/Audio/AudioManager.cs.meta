@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 3553639fdbb232446a3a3079c1b5dee7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bgmGroup: {fileID: 8771023493800127964, guid: 992f85c4cc789444c9d036d939a55fd8, type: 2}
+  - sfxGroup: {fileID: -1478101553934284534, guid: 992f85c4cc789444c9d036d939a55fd8, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
