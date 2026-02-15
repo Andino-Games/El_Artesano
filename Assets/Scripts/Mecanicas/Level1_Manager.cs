@@ -16,8 +16,9 @@ public class Level1_Manager : MonoBehaviour
 
     [Header("Acts")]
     [SerializeField] private ActInteractions[] acts;
-    
+
     [Header("Dialogue")]
+    [SerializeField] private string startingDialogue;
     [SerializeField] private string[] dialogue;
     
     private int currentAct;
@@ -30,6 +31,7 @@ public class Level1_Manager : MonoBehaviour
         player.OnInteractionBegin += InteractionBegin;
         player.OnInteractionEnd += InteractionEnd;
         animatic.OnAnimaticEnd += StartGame;
+        animatic.OnContinueGameplay += ResumeGameplay;
 
         // Nos conectamos a cada tornillo
         for (int actIndex = 0; actIndex < acts.Length; actIndex++)
@@ -52,27 +54,15 @@ public class Level1_Manager : MonoBehaviour
 
         if (isActComplete == true)
         {
-            Debug.Log("Try to change Mask");
             acts[currentAct].MaskPiece.DetachPiece();
-            camera.SetFarView();
-            canChangeZoom = false;
-            player.SetActive(false);
-
-            DialogueManager.instance.StartDialogue(dialogue[currentAct]);
-
+            
+            StopGameplay();
 
             currentAct++;
 
-            if (currentAct < acts.Length)
+            if (currentAct >= acts.Length)
             {
-                map.SetActMap(currentAct);
-                player.SetSpawnPoint(spawnPoints[currentAct]);
-
-                Invoke(nameof(ResetCamera), TIME_TO_RESET);
-            }
-            else if (currentAct >= acts.Length)
-            {
-                StartCoroutine(nameof(EndLevelCoroutine));
+                camera.SetGeneralView();
             }
         }
     }
@@ -88,13 +78,6 @@ public class Level1_Manager : MonoBehaviour
         {
             camera.SetMainView();
         }
-    }
-
-    private void ResetCamera()
-    {
-        canChangeZoom = true;
-        InteractionEnd();
-        player.SetActive(true);
     }
 
     public void StartGame()
@@ -114,8 +97,7 @@ public class Level1_Manager : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        player.SetActive(true);
-        camera.StartVignette();
+        DialogueManager.instance.StartDialogue(startingDialogue, true);
     }
 
     IEnumerator EndLevelCoroutine()
@@ -130,5 +112,43 @@ public class Level1_Manager : MonoBehaviour
         animatic.PlayOutro();
 
         //yield return new WaitForSeconds(1f);
+    }
+
+    private void StopGameplay()
+    {
+        camera.SetFarView();
+        canChangeZoom = false;
+        player.SetActive(false);
+
+        DialogueManager.instance.StartDialogue(dialogue[currentAct], true);
+    }
+
+    private void ResumeGameplay()
+    {
+        canChangeZoom = true;
+        DialogueManager.instance.EndDialogue();
+
+        if (currentAct == 0)
+        {
+            camera.StartVignette();
+        }
+        else if (currentAct >= acts.Length)
+        {
+            Invoke(nameof(StartOutro), 3f);
+
+            return;
+        }
+
+        map.SetActMap(currentAct);
+        player.SetSpawnPoint(spawnPoints[currentAct]);
+        player.SetActive(true);
+
+        InteractionEnd();
+    }
+
+    private void StartOutro() 
+    {
+        animatic.gameObject.SetActive(true);
+        animatic.PlayOutro();
     }
 }

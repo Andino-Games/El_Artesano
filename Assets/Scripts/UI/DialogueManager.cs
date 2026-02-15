@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject _dialoguePanel;
     [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private CanvasGroup _gradientOpacity;
+    [SerializeField] private GameObject resumeButton;
 
     private void Awake()
     {
@@ -17,19 +18,18 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        _gradientOpacity = _dialoguePanel.GetComponent<CanvasGroup>();
+        //_gradientOpacity = _dialoguePanel.GetComponent<CanvasGroup>();
     }
 
-    public void StartDialogue(string text, bool doCoroutine = true)
+    public void StartDialogue(string text, bool isGameplay = false)
     {
-        _gradientOpacity.alpha = Mathf.Lerp(0f, 1f, 1.2f);
+        _dialoguePanel.SetActive(true);
+        //_gradientOpacity.alpha = Mathf.Lerp(0f, 1f, 1.2f);
         _dialogueText.text = text;
 
-        if (doCoroutine == true)
-        {
-            StartCoroutine(DialogueCouroutine(text));
-        }
-        else
+        resumeButton.SetActive(isGameplay);
+        
+        if (isGameplay == false)
         {
             _dialogueText.text = text;
         }
@@ -48,7 +48,8 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         Debug.Log("End Dialogue");
-        _gradientOpacity.alpha = Mathf.Lerp(1f, 0f, 1.2f);
+        _dialoguePanel.SetActive(false);
+        //_gradientOpacity.alpha = Mathf.Lerp(1f, 0f, 1.2f);
         _dialogueText.text = "";
     }
 

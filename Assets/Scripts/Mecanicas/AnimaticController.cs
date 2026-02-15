@@ -9,51 +9,42 @@ public class AnimaticController : MonoBehaviour
     [SerializeField] private string[] dialogues;
 
     public Action OnAnimaticEnd;
+    public Action OnContinueGameplay;
 
     public void Animatic1()
     {
-        Pause();
-        DialogueManager.instance.StartDialogue(dialogues[0], false);
-
-        /*
-        var image = animator.transform.parent.GetComponent<Image>();
-        image.color = new Color(0, 0, 0, 1);
-        */
+        Animatic(0);
     }
 
     public void Animatic2()
     {
-        Pause();
-        DialogueManager.instance.StartDialogue(dialogues[1], false);
+        Animatic(1);
     }
 
     public void Animatic3()
     {
-        Pause();
-        DialogueManager.instance.StartDialogue(dialogues[2], false);
+        Animatic(2);
     }
 
     public void Animatic4()
     {
-        Pause();
-        DialogueManager.instance.StartDialogue(dialogues[3], false);
-
-        /*
-        var image = animator.transform.parent.GetComponent<Image>();
-        image.color = new Color(0, 0, 0, 0);
-        */
+        Animatic(3);
     }
 
     public void Animatic5()
     {
-        Pause();
-        DialogueManager.instance.StartDialogue(dialogues[4], false);
+        Animatic(4);
     }
 
     public void Animatic6()
     {
+        Animatic(5);
+    }
+
+    private void Animatic(int index)
+    {
         Pause();
-        DialogueManager.instance.StartDialogue(dialogues[5], false);
+        DialogueManager.instance.StartDialogue(dialogues[index]);
     }
 
     public void Pause()
@@ -70,16 +61,16 @@ public class AnimaticController : MonoBehaviour
         DialogueManager.instance.EndDialogue();
     }
 
-    public void End()
+    public void EndIntro()
     {
         OnAnimaticEnd?.Invoke();
     }
 
-    public void Skip()
+    public void SkipIntro()
     {
         Resume();
-        //animator.SetTrigger("Intro");
-        animator.Play("Animatic_Intro", 0, 0.9f);
+        
+        animator.Play("The_Animatic_Intro", 0, 0.9f);
     }
 
     public void PlayIntro()
@@ -90,5 +81,10 @@ public class AnimaticController : MonoBehaviour
     public void PlayOutro()
     {
         animator.SetTrigger("Outro");
+    }
+
+    public void ContinueGameplay()
+    {
+        OnContinueGameplay?.Invoke();
     }
 }
