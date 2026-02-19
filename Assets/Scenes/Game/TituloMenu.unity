@@ -5412,6 +5412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862820805}
   - component: {fileID: 862820808}
+  - component: {fileID: 862820809}
   - component: {fileID: 862820807}
   - component: {fileID: 862820806}
   m_Layer: 5
@@ -5534,6 +5535,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862820804}
   m_CullTransparentMesh: 1
+--- !u!114 &862820809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862820804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4beade6605264940882bf04992381a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSfx
+  sound: 1
+  volume: 1
 --- !u!1 &1199886135
 GameObject:
   m_ObjectHideFlags: 0
@@ -5791,6 +5806,7 @@ GameObject:
   - component: {fileID: 1325570506}
   - component: {fileID: 1325570505}
   - component: {fileID: 1325570507}
+  - component: {fileID: 1325570508}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -5841,6 +5857,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a135e1c56f68384aa0f83ede3294ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleAudioBootstrap
+--- !u!114 &1325570508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325570504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d739064a0597e48b4071dac4487d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSetter
+  music: 0
+  fadeDuration: 0.5
 --- !u!1 &1418805261
 GameObject:
   m_ObjectHideFlags: 0
@@ -5955,6 +5985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1482951293}
   - component: {fileID: 1482951296}
+  - component: {fileID: 1482951297}
   - component: {fileID: 1482951295}
   - component: {fileID: 1482951294}
   m_Layer: 5
@@ -6077,6 +6108,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482951292}
   m_CullTransparentMesh: 1
+--- !u!114 &1482951297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482951292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4beade6605264940882bf04992381a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSfx
+  sound: 1
+  volume: 1
 --- !u!1 &1697735151
 GameObject:
   m_ObjectHideFlags: 0

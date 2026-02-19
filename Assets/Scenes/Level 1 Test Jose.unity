@@ -1965,6 +1965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1147618224}
+  - component: {fileID: 1147618225}
   - component: {fileID: 1147618223}
   m_Layer: 0
   m_Name: Level Manager
@@ -2034,6 +2035,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1147618225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147618222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d739064a0597e48b4071dac4487d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSetter
+  music: 2
+  fadeDuration: 0.5
 --- !u!1 &1152511066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,7 +4457,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8446435162723694021, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
   m_PrefabInstance: {fileID: 6596064340459279728}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6596064340459279730}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b93dcda5c775a0a41aedb23f776e0a50, type: 3}
@@ -7058,6 +7073,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 13187992}
     - target: {fileID: 8446435162723694021, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
+      propertyPath: footsteps
+      value: 
+      objectReference: {fileID: 6596064340459279731}
+    - target: {fileID: 8446435162723694021, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 929948247}
@@ -7067,8 +7086,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1911587381525650797, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 13187995}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3052045082660623266, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6596064340459279731}
   m_SourcePrefab: {fileID: 100100000, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
+--- !u!143 &6596064340459279729 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 1903758641264094128, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
+  m_PrefabInstance: {fileID: 6596064340459279728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6596064340459279730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3052045082660623266, guid: e4296ccb9066d4a4b84b66980b3afa4e, type: 3}
+  m_PrefabInstance: {fileID: 6596064340459279728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6596064340459279731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596064340459279730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bf9061f732459488606b35c9536550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepsController
+  controller: {fileID: 6596064340459279729}
+  stepDistance: 1.4
+  minSpeed: 0.7
+  volume: 1
 --- !u!1001 &7258506783655902411
 PrefabInstance:
   m_ObjectHideFlags: 0
