@@ -45,6 +45,9 @@ public class Level1_Manager : MonoBehaviour
 
     void CountScrew()
     {
+        AudioManager.PlaySound(SoundType.Mechanical, 1f);
+
+        
         if (currentAct >= acts.Length)
         {
             return;
@@ -82,8 +85,10 @@ public class Level1_Manager : MonoBehaviour
 
     public void StartGame()
     {
-        animatic.gameObject.SetActive(false);
+        // Música gameplay cuando se acaba la animática
+        AudioManager.PlayMusic(LevelMusic.Level_Gameplay, 1.0f);
 
+        animatic.gameObject.SetActive(false);
         StartCoroutine(nameof(StartLevelCoroutine));
     }
 

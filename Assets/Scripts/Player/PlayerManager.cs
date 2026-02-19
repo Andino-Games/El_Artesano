@@ -1,6 +1,4 @@
-using GLTFast.Schema;
 using System;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private MovimientoJugador movement;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] new private GameObject light;
+    [SerializeField] private FootstepsController footsteps;
+
 
     private Vector2 moveInput;
 
@@ -22,7 +22,13 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         canMove = false;
-        
+
+        if (footsteps == null)
+            footsteps = GetComponentInChildren<FootstepsController>();
+
+        if (footsteps != null)
+            footsteps.enabled = false;
+
         collision.OnPlayerFell += RestartPosition;
         input.OnClickInteraction += ValidateInteraction;
     }
@@ -52,13 +58,23 @@ public class PlayerManager : MonoBehaviour
         {
             if (collision.Interactable.Mode == interactionMode)
             {
+                collision.Interactable.OnRemoved.AddListener(StopInteraction);
+                
                 collision.Interactable.Activate();
                 collision.Interactable.OnRemoved.AddListener(StopInteraction);
 
                 movement.Anim.SetBool("IsHolding", true);
+                
+                // SFX al iniciar interacción (opcional)
+                // AudioManager.PlaySound(SoundType.Mechanical, 0.8f);
+                
+                // Sin pasos mientras interactúa
+                if (footsteps != null)
+                    footsteps.enabled = false;
 
                 OnInteractionBegin?.Invoke();
             }
+
             if (collision.Interactable.Mode == InteractionMode.Hold)
             {
                 if (interactionMode == InteractionMode.HoldEnd)
@@ -74,6 +90,10 @@ public class PlayerManager : MonoBehaviour
         collision.Interactable.Stop();
 
         movement.Anim.SetBool("IsHolding", false);
+        
+        // Rehabilita pasos si el player puede moverse
+        if (footsteps != null)
+            footsteps.enabled = canMove;
 
         OnInteractionEnd?.Invoke();
     }
@@ -81,7 +101,6 @@ public class PlayerManager : MonoBehaviour
     public void RestartPosition()
     {
         Debug.Log("Restart Position");
-
         movement.TeleportTo(spawnPoint.position);
     }
 
@@ -89,6 +108,9 @@ public class PlayerManager : MonoBehaviour
     {
         canMove = newActive;
         light.SetActive(newActive);
+
+        if (footsteps != null)
+            footsteps.enabled = newActive;
     }
 
     public void SetSpawnPoint(Transform newSpawnPoint)
