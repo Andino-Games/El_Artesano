@@ -90,6 +90,16 @@ public class AudioManager : MonoBehaviour
         _musicSource2 = gameObject.AddComponent<AudioSource>();
         _sfxSource = gameObject.AddComponent<AudioSource>();
         _loopSfxSource = gameObject.AddComponent<AudioSource>();
+        
+        // Forzar SFX en 2D (sin atenuación por distancia)
+        _sfxSource.spatialBlend = 0f;
+        _sfxSource.rolloffMode = AudioRolloffMode.Linear; // da igual en 2D, pero lo dejamos limpio
+        _sfxSource.dopplerLevel = 0f;
+
+        _loopSfxSource.spatialBlend = 0f;
+        _loopSfxSource.rolloffMode = AudioRolloffMode.Linear;
+        _loopSfxSource.dopplerLevel = 0f;
+
 
         // Música
         _musicSource1.outputAudioMixerGroup = bgmGroup;
