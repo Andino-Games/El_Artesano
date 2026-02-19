@@ -45,9 +45,6 @@ public class Level1_Manager : MonoBehaviour
 
     void CountScrew()
     {
-        AudioManager.PlaySound(SoundType.Mechanical, 1f);
-
-        
         if (currentAct >= acts.Length)
         {
             return;

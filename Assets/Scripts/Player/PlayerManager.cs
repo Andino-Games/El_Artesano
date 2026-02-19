@@ -117,4 +117,7 @@ public class PlayerManager : MonoBehaviour
     {
         spawnPoint = newSpawnPoint;
     }
+    
+    public bool CanMove => canMove;
+
 }

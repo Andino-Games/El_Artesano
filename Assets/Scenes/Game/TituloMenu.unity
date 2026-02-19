@@ -5363,15 +5363,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   bgmGroup: {fileID: 8771023493800127964, guid: 992f85c4cc789444c9d036d939a55fd8, type: 2}
   sfxGroup: {fileID: -1478101553934284534, guid: 992f85c4cc789444c9d036d939a55fd8, type: 2}
-  musicVolume: 20
-  sfxVolume: 20
+  musicVolume: 1
+  sfxVolume: 1
   soundList:
+  - name: StepA
+    soundList:
+    - {fileID: 8300000, guid: 7a40a460a4bb96e449f9742d2cdf7287, type: 3}
+  - name: StepB
+    soundList:
+    - {fileID: 8300000, guid: 36827411e6e383640847270c0651b997, type: 3}
   - name: PlayerSteps
     soundList:
     - {fileID: 8300000, guid: 64fb6416da7156c4994065ea6d56d412, type: 3}
   - name: UI_Click
-    soundList:
-    - {fileID: 8300000, guid: fa1fa5e0e820a6544881464e82d3680c, type: 3}
+    soundList: []
   - name: Mechanical
     soundList:
     - {fileID: 8300000, guid: 59cb7244484668f4ca6981a634fc3352, type: 3}
@@ -5805,7 +5810,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1325570506}
   - component: {fileID: 1325570505}
-  - component: {fileID: 1325570507}
   - component: {fileID: 1325570508}
   m_Layer: 0
   m_Name: MenuManager
@@ -5845,18 +5849,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1325570507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325570504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a135e1c56f68384aa0f83ede3294ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TitleAudioBootstrap
 --- !u!114 &1325570508
 MonoBehaviour:
   m_ObjectHideFlags: 0

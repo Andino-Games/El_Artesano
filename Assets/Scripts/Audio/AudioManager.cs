@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 
 public enum SoundType
 {
+    StepA,
+    StepB,
     PlayerSteps,
     UI_Click,
     Mechanical
@@ -76,6 +78,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource _musicSource1;
     private AudioSource _musicSource2;
     private AudioSource _sfxSource;
+    private AudioSource _loopSfxSource;
+    private Coroutine _loopFadeCoroutine;
 
     private bool _isPlayingSource1 = true;
     private Coroutine _musicCoroutine;
@@ -85,6 +89,7 @@ public class AudioManager : MonoBehaviour
         _musicSource1 = gameObject.AddComponent<AudioSource>();
         _musicSource2 = gameObject.AddComponent<AudioSource>();
         _sfxSource = gameObject.AddComponent<AudioSource>();
+        _loopSfxSource = gameObject.AddComponent<AudioSource>();
 
         // Música
         _musicSource1.outputAudioMixerGroup = bgmGroup;
@@ -99,6 +104,11 @@ public class AudioManager : MonoBehaviour
         // SFX
         _sfxSource.outputAudioMixerGroup = sfxGroup;
         _sfxSource.playOnAwake = false;
+        
+        //Loop SFX (para tornillo y sonidos sostenidos)
+        _loopSfxSource.outputAudioMixerGroup = sfxGroup;
+        _loopSfxSource.loop = true;
+        _loopSfxSource.playOnAwake = false;
     }
 
     // ===============================
@@ -125,6 +135,68 @@ public class AudioManager : MonoBehaviour
         AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
         Instance._sfxSource.PlayOneShot(randomClip, volume * Instance.sfxVolume);
     }
+    // ===============================
+    // ========= PLAY LOOP ==========
+    // ===============================
+    public static void PlayLoopSfx(SoundType sound, float volume = 1f)
+    {
+        if (Instance == null) return;
+        if ((int)sound >= Instance.soundList.Length) return;
+
+        var clips = Instance.soundList[(int)sound].Sounds;
+        if (clips == null || clips.Length == 0) return;
+
+        var clip = clips[0];
+
+        if (Instance._loopSfxSource.isPlaying && Instance._loopSfxSource.clip == clip)
+            return;
+
+        Instance._loopSfxSource.clip = clip;
+        Instance._loopSfxSource.volume = volume * Instance.sfxVolume;
+        Instance._loopSfxSource.Play();
+    }
+
+    public static void StopLoopSfx(float fadeOut = 0f)
+    {
+        if (Instance == null) return;
+
+        if (fadeOut <= 0f)
+        {
+            Instance._loopSfxSource.Stop();
+            Instance._loopSfxSource.clip = null;
+            return;
+        }
+
+        Instance.InstanceStopLoopFade(fadeOut);
+    }
+
+    private void InstanceStopLoopFade(float fadeOut)
+    {
+        if (_loopFadeCoroutine != null)
+            StopCoroutine(_loopFadeCoroutine);
+
+        _loopFadeCoroutine = StartCoroutine(StopLoopFadeRoutine(fadeOut));
+    }
+
+    private IEnumerator StopLoopFadeRoutine(float fadeOut)
+    {
+        if (!_loopSfxSource.isPlaying) yield break;
+
+        float startVol = _loopSfxSource.volume;
+        float t = 0f;
+
+        while (t < fadeOut)
+        {
+            t += Time.deltaTime;
+            _loopSfxSource.volume = Mathf.Lerp(startVol, 0f, t / fadeOut);
+            yield return null;
+        }
+
+        _loopSfxSource.Stop();
+        _loopSfxSource.clip = null;
+        _loopSfxSource.volume = startVol;
+    }
+
 
     // ===============================
     // ========= PLAY MUSIC ==========
