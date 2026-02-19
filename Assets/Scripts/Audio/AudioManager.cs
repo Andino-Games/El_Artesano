@@ -1,19 +1,21 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio; // Necesario para el Mixer
+using UnityEngine.Audio;
+
+
 
 public enum SoundType
 {
-    PlayerSteps,    // (Antes Player)
-    UI_Click,       // (Antes Level)
-    Mechanical      // (Antes Effects) - Para los tornillos
+    PlayerSteps,
+    UI_Click,
+    Mechanical
 }
 
 public enum LevelMusic
 {
     MainMenu,
-    Level_Introduction, // Narrativa
+    Level_Introduction,
     Level_Gameplay,
     GameOver
 }
@@ -21,85 +23,129 @@ public enum LevelMusic
 [ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
-    // --- Singleton Seguro ---
+    // ===============================
+    // ======= SINGLETON SAFE ========
+    // ===============================
+
     public static AudioManager Instance;
 
-    [Header("Configuración del Mixer")]
-    public AudioMixerGroup bgmGroup; // Arrastra aquí el grupo BGM del Mixer
-    public AudioMixerGroup sfxGroup; // Arrastra aquí el grupo SFX del Mixer
+    // Resetea estáticos aunque Domain Reload esté desactivado
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
+    {
+        Instance = null;
+    }
 
-    [Header("Fuentes de Audio (Internas)")]
-    // Usamos 2 para música para poder hacer crossfade
+    private void Awake()
+    {
+        if (!Application.isPlaying) return;
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        InitializeSources();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
+    // ===============================
+    // ======= MIXER CONFIG ==========
+    // ===============================
+
+    [Header("Configuración del Mixer")]
+    public AudioMixerGroup bgmGroup;
+    public AudioMixerGroup sfxGroup;
+
+    [Header("Volúmenes Base")]
+    [SerializeField] private float musicVolume = 1f;
+    [SerializeField] private float sfxVolume = 1f;
+
+    // ===============================
+    // ======= AUDIO SOURCES =========
+    // ===============================
+
     private AudioSource _musicSource1;
     private AudioSource _musicSource2;
     private AudioSource _sfxSource;
+
     private bool _isPlayingSource1 = true;
+    private Coroutine _musicCoroutine;
+
+    private void InitializeSources()
+    {
+        _musicSource1 = gameObject.AddComponent<AudioSource>();
+        _musicSource2 = gameObject.AddComponent<AudioSource>();
+        _sfxSource = gameObject.AddComponent<AudioSource>();
+
+        // Música
+        _musicSource1.outputAudioMixerGroup = bgmGroup;
+        _musicSource2.outputAudioMixerGroup = bgmGroup;
+
+        _musicSource1.loop = true;
+        _musicSource2.loop = true;
+
+        _musicSource1.playOnAwake = false;
+        _musicSource2.playOnAwake = false;
+
+        // SFX
+        _sfxSource.outputAudioMixerGroup = sfxGroup;
+        _sfxSource.playOnAwake = false;
+    }
+
+    // ===============================
+    // ======= LIBRERÍA AUDIO ========
+    // ===============================
 
     [Header("Biblioteca de Audio")]
     [SerializeField] private SoundList[] soundList;
     [SerializeField] private MusicList[] musicList;
 
-    private void Awake()
-    {
-        // Lógica Singleton corregida
-        if (Application.isPlaying)
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-                InitializeSources(); // Crear los AudioSources por código
-            }
-            else
-            {
-                Destroy(gameObject); // Destruir el objeto duplicado, no la referencia
-            }
-        }
-    }
+    // ===============================
+    // ========= PLAY SFX ============
+    // ===============================
 
-    private void InitializeSources()
-    {
-        // Creamos los AudioSources dinámicamente para no ensuciar el Inspector
-        _musicSource1 = gameObject.AddComponent<AudioSource>();
-        _musicSource2 = gameObject.AddComponent<AudioSource>();
-        _sfxSource = gameObject.AddComponent<AudioSource>();
-
-        // Configuración Música
-        _musicSource1.outputAudioMixerGroup = bgmGroup;
-        _musicSource2.outputAudioMixerGroup = bgmGroup;
-        _musicSource1.loop = true;
-        _musicSource2.loop = true;
-
-        // Configuración SFX
-        _sfxSource.outputAudioMixerGroup = sfxGroup;
-    }
-
-    // --- REPRODUCCIÓN DE SFX ---
-    public static void PlaySound(SoundType sound, float volume = 1)
+    public static void PlaySound(SoundType sound, float volume = 1f)
     {
         if (Instance == null) return;
 
-        // Buscamos el clip en tu lista
+        if ((int)sound >= Instance.soundList.Length) return;
+
         AudioClip[] clips = Instance.soundList[(int)sound].Sounds;
-        if (clips.Length == 0) return;
+        if (clips == null || clips.Length == 0) return;
 
         AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
-        
-        // PlayOneShot es perfecto para efectos cortos
-        Instance._sfxSource.PlayOneShot(randomClip, volume);
+        Instance._sfxSource.PlayOneShot(randomClip, volume * Instance.sfxVolume);
     }
 
-    // --- REPRODUCCIÓN DE MÚSICA CON FADE ---
+    // ===============================
+    // ========= PLAY MUSIC ==========
+    // ===============================
+
     public static void PlayMusic(LevelMusic music, float fadeDuration = 1.5f)
     {
         if (Instance == null) return;
 
+        if ((int)music >= Instance.musicList.Length) return;
+
         AudioClip[] clips = Instance.musicList[(int)music].Music;
-        if (clips.Length == 0) return;
+        if (clips == null || clips.Length == 0) return;
 
-        AudioClip nextClip = clips[0]; // Normalmente la música no es random, tomamos el primero
+        AudioClip nextClip = clips[0];
 
-        Instance.StartCoroutine(Instance.CrossfadeMusicRoutine(nextClip, fadeDuration));
+        if (Instance._musicCoroutine != null)
+            Instance.StopCoroutine(Instance._musicCoroutine);
+
+        Instance._musicCoroutine =
+            Instance.StartCoroutine(Instance.CrossfadeMusicRoutine(nextClip, fadeDuration));
     }
 
     private IEnumerator CrossfadeMusicRoutine(AudioClip newClip, float duration)
@@ -107,41 +153,44 @@ public class AudioManager : MonoBehaviour
         AudioSource activeSource = _isPlayingSource1 ? _musicSource1 : _musicSource2;
         AudioSource newSource = _isPlayingSource1 ? _musicSource2 : _musicSource1;
 
-        // Si ya está sonando la misma canción, no hacemos nada
-        if (activeSource.clip == newClip && activeSource.isPlaying) yield break;
+        if (activeSource.clip == newClip && activeSource.isPlaying)
+            yield break;
 
         newSource.clip = newClip;
-        newSource.volume = 0;
+        newSource.volume = 0f;
         newSource.Play();
 
-        float timer = 0;
+        float timer = 0f;
+
         while (timer < duration)
         {
             timer += Time.deltaTime;
             float t = timer / duration;
 
-            // Fade In del nuevo
-            newSource.volume = Mathf.Lerp(0, 1, t);
-            // Fade Out del viejo
-            activeSource.volume = Mathf.Lerp(1, 0, t);
+            newSource.volume = Mathf.Lerp(0f, musicVolume, t);
+            activeSource.volume = Mathf.Lerp(musicVolume, 0f, t);
 
             yield return null;
         }
 
         activeSource.Stop();
-        activeSource.volume = 0; // Asegurar silencio
-        _isPlayingSource1 = !_isPlayingSource1; // Cambiamos el flag
+        activeSource.volume = 0f;
+
+        _isPlayingSource1 = !_isPlayingSource1;
     }
 
-    // --- TU CÓDIGO DE EDITOR (INTACTO) ---
 #if UNITY_EDITOR
-    private void OnEnable()
+    // Más seguro que OnEnable (no te borra clips al recompilar)
+    private void OnValidate()
     {
         string[] soundNames = Enum.GetNames(typeof(SoundType));
         string[] musicNames = Enum.GetNames(typeof(LevelMusic));
-        
-        Array.Resize(ref soundList, soundNames.Length);
-        Array.Resize(ref musicList, musicNames.Length);
+
+        if (soundList == null || soundList.Length != soundNames.Length)
+            Array.Resize(ref soundList, soundNames.Length);
+
+        if (musicList == null || musicList.Length != musicNames.Length)
+            Array.Resize(ref musicList, musicNames.Length);
 
         for (int i = 0; i < soundList.Length; i++)
             soundList[i].name = soundNames[i];
@@ -152,11 +201,15 @@ public class AudioManager : MonoBehaviour
 #endif
 }
 
-// --- TUS STRUCTS (INTACTOS) ---
+// ===============================
+// ========= STRUCTS =============
+// ===============================
+
 [Serializable]
 public struct SoundList
 {
-    public AudioClip[] Sounds { get => soundList; }
+    public AudioClip[] Sounds => soundList;
+
     public string name;
     [SerializeField] private AudioClip[] soundList;
 }
@@ -164,7 +217,8 @@ public struct SoundList
 [Serializable]
 public struct MusicList
 {
-    public AudioClip[] Music { get => musicList; }
+    public AudioClip[] Music => musicList;
+
     public string name;
     [SerializeField] private AudioClip[] musicList;
 }
