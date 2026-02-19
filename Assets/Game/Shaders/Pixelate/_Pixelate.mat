@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Downscale: 1
-    - _Intensity: 0.805
+    - _Intensity: 0.91
     - _PixelClamp: 0.01
     - _Resolution: 720
     m_Colors:
