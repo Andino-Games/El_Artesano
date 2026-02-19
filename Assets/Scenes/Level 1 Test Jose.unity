@@ -1503,7 +1503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d739064a0597e48b4071dac4487d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneMusicSetter
-  music: 2
+  music: 1
   fadeDuration: 0.5
 --- !u!1 &1152511066
 GameObject:
@@ -6433,7 +6433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FootstepsController
   controller: {fileID: 6596064340459279729}
-  stepDistance: 1.4
+  stepDistance: 0.4
   minSpeed: 0.7
   volume: 1
 --- !u!1001 &7258506783655902411
