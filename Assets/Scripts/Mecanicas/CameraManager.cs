@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+
 
 public class CameraManager : MonoBehaviour
 {
@@ -10,7 +12,17 @@ public class CameraManager : MonoBehaviour
 
     [Header("Vignette")]
     [SerializeField] private CameraVignete vignette;
+    [SerializeField] private GameObject losePanel;
     [SerializeField] private float duration;
+
+    public Action OnTimeEnd;
+
+    private void Awake()
+    {
+        losePanel.SetActive(false);
+
+        vignette.OnVignetteEnd += VignetteEnd;
+    }
 
     public void StartVignette()
     {
@@ -42,7 +54,7 @@ public class CameraManager : MonoBehaviour
         int counter = 0;
         float delta = (1f - VIGNETTE_INITIAL_INTENSITY) / VIGNETTE_MAX_COUNT;
 
-        while (counter < VIGNETTE_MAX_COUNT)
+        while (counter <= VIGNETTE_MAX_COUNT)
         {
             vignette.UpdatePercentage((delta * counter) + VIGNETTE_INITIAL_INTENSITY);
 
@@ -50,5 +62,25 @@ public class CameraManager : MonoBehaviour
 
             counter++;
         }
+    }
+
+    public void UnattachMainCamera() 
+    {
+        var mainCamera = zoom.GetMainCamera();
+        mainCamera.Target = default;
+    }
+
+    private void VignetteEnd()
+    {
+        losePanel.SetActive(true);
+
+        OnTimeEnd?.Invoke();
+    }
+
+    public void StopVignette()
+    {
+        StopAllCoroutines();
+
+        vignette.UpdatePercentage(0f);
     }
 }

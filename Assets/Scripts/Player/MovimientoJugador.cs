@@ -40,20 +40,29 @@ public class MovimientoJugador : MonoBehaviour
 
     public void AplicarGravedad()
     {
-        if (!controller.isGrounded)
+        if (controller.enabled == true)
         {
-            controller.Move(Vector3.down * (20f * Time.deltaTime));
-        }
-        else
-        {
-            controller.Move(Vector3.down * (0.2f * Time.deltaTime)); // Mantiene al player pegado al suelo
+            if (!controller.isGrounded)
+            {
+                controller.Move(Vector3.down * (20f * Time.deltaTime));
+            }
+            else
+            {
+                controller.Move(Vector3.down * (0.2f * Time.deltaTime)); // Mantiene al player pegado al suelo
+            }
         }
     }
 
     public void TeleportTo(Vector3 position)
     {
-        controller.enabled = false;
+        ControllerSetActive(false);
         transform.position = position;
-        controller.enabled = true;
+        ControllerSetActive(true);
+    }
+
+    public void ControllerSetActive(bool newActive, bool isWalking = false)
+    {
+        controller.enabled = newActive;
+        animator.SetBool("IsWalking", isWalking);
     }
 }

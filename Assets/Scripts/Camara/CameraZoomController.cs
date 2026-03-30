@@ -62,4 +62,16 @@ public class CameraZoomController : MonoBehaviour
         cameras[cameraIndex].gameObject.SetActive(true);
         Debug.Log("Cámara encendida: " + cameras[cameraIndex].name);
     }
+
+    public CinemachineCamera GetMainCamera()
+    {
+        CinemachineCamera result = default;
+
+        if (cameras.Length >= 2)
+        {
+            result = cameras[1];
+        }
+
+        return result;
+    }
 }

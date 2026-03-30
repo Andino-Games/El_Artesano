@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimaticController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private Animator end;
     [SerializeField] private GameObject button;
     [SerializeField] private string[] dialogues;
 
@@ -39,6 +40,11 @@ public class AnimaticController : MonoBehaviour
     public void Animatic6()
     {
         Animatic(5);
+    }
+
+    public void Animatic7()
+    {
+        Animatic(6);
     }
 
     private void Animatic(int index)
@@ -86,5 +92,10 @@ public class AnimaticController : MonoBehaviour
     public void ContinueGameplay()
     {
         OnContinueGameplay?.Invoke();
+    }
+
+    public void StartEnd()
+    {
+        end.SetTrigger("End");
     }
 }

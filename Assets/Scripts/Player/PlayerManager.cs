@@ -10,14 +10,18 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] new private GameObject light;
     [SerializeField] private FootstepsController footsteps;
+    [SerializeField] private PlayerLastScene lastAct;
 
 
     private Vector2 moveInput;
 
     public Action OnInteractionBegin;
     public Action OnInteractionEnd;
+    public Action OnTearReached;
 
     private bool canMove;
+
+    public bool CanMove => canMove;
 
     private void Awake()
     {
@@ -31,6 +35,7 @@ public class PlayerManager : MonoBehaviour
 
         collision.OnPlayerFell += RestartPosition;
         input.OnClickInteraction += ValidateInteraction;
+        lastAct.OnTargetReached += TearReached;
     }
 
     private void Update()
@@ -66,7 +71,7 @@ public class PlayerManager : MonoBehaviour
                 movement.Anim.SetBool("IsHolding", true);
                 
                 // SFX al iniciar interacción (opcional)
-                // AudioManager.PlaySound(SoundType.Mechanical, 0.8f);
+                AudioManager.PlaySound(SoundType.Mechanical, 0.8f);
                 
                 // Sin pasos mientras interactúa
                 if (footsteps != null)
@@ -117,7 +122,18 @@ public class PlayerManager : MonoBehaviour
     {
         spawnPoint = newSpawnPoint;
     }
-    
-    public bool CanMove => canMove;
 
+    public void TriggerLastScene()
+    {
+        movement.ControllerSetActive(false, true);
+        lastAct.Trigger();
+    }
+
+    private void TearReached()
+    {
+        movement.ControllerSetActive(false, false);
+        lastAct.StartFalling();
+
+        OnTearReached?.Invoke();
+    }
 }

@@ -1,7 +1,8 @@
-using UnityEngine.UI;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Level1_Manager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Level1_Manager : MonoBehaviour
 
     [Header("Dialogue")]
     [SerializeField] private string startingDialogue;
+    [SerializeField] private string loseDialogue;
     [SerializeField] private string[] dialogue;
     
     private int currentAct;
@@ -30,8 +32,12 @@ public class Level1_Manager : MonoBehaviour
 
         player.OnInteractionBegin += InteractionBegin;
         player.OnInteractionEnd += InteractionEnd;
+        player.OnTearReached += () => Invoke(nameof(StartOutro), 3f);
+
         animatic.OnAnimaticEnd += StartGame;
         animatic.OnContinueGameplay += ResumeGameplay;
+
+        camera.OnTimeEnd += TimeEnd;
 
         // Nos conectamos a cada tornillo
         for (int actIndex = 0; actIndex < acts.Length; actIndex++)
@@ -136,7 +142,10 @@ public class Level1_Manager : MonoBehaviour
         }
         else if (currentAct >= acts.Length)
         {
-            Invoke(nameof(StartOutro), 3f);
+            player.SetActive(false);
+            camera.SetMainView();
+
+            Invoke(nameof(StartLastAct), 3f);
 
             return;
         }
@@ -152,5 +161,23 @@ public class Level1_Manager : MonoBehaviour
     {
         animatic.gameObject.SetActive(true);
         animatic.PlayOutro();
+
+        camera.StopVignette();
+    }
+
+    private void StartLastAct()
+    {
+        player.TriggerLastScene();
+        camera.UnattachMainCamera();
+    }
+
+    private void TimeEnd()
+    {
+        DialogueManager.instance.StartDialogue(loseDialogue, null);
+    }
+
+    public void GoHome()
+    {
+        SceneManager.LoadScene(0);
     }
 }

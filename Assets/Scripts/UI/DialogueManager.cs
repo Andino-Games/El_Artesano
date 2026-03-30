@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private CanvasGroup _gradientOpacity;
     [SerializeField] private GameObject resumeButton;
+    [SerializeField] private GameObject loseButton;
 
     private void Awake()
     {
@@ -21,17 +22,20 @@ public class DialogueManager : MonoBehaviour
         //_gradientOpacity = _dialoguePanel.GetComponent<CanvasGroup>();
     }
 
-    public void StartDialogue(string text, bool isGameplay = false)
+    public void StartDialogue(string text, bool? isGameplay = false)
     {
         _dialoguePanel.SetActive(true);
         //_gradientOpacity.alpha = Mathf.Lerp(0f, 1f, 1.2f);
         _dialogueText.text = text;
 
-        resumeButton.SetActive(isGameplay);
-        
-        if (isGameplay == false)
+        if (isGameplay != null)
         {
-            _dialogueText.text = text;
+            resumeButton.SetActive(isGameplay.Value);
+            loseButton.SetActive(false);
+        }
+        else
+        {
+            loseButton.SetActive(true);
         }
     }
 
@@ -52,5 +56,4 @@ public class DialogueManager : MonoBehaviour
         //_gradientOpacity.alpha = Mathf.Lerp(1f, 0f, 1.2f);
         _dialogueText.text = "";
     }
-
 }
